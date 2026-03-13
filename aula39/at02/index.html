@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central 193 - Monitoramento de Emergências</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-white font-sans">
+
+    <header class="bg-red-700 p-4 shadow-lg flex justify-between items-center">
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+            <span>🚒</span> Central de Despacho - Posto Centro
+        </h1>
+        <div class="text-sm bg-red-800 px-3 py-1 rounded-full">
+            Status: <span id="status-conexao" class="text-green-400">● Conectado</span>
+        </div>
+    </header>
+
+    <main class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-1 bg-slate-800 rounded-lg p-4 shadow-xl border border-slate-700">
+            <h2 class="text-lg font-semibold mb-4 border-b border-slate-700 pb-2">Chamados Ativos</h2>
+            <div id="lista-chamados" class="space-y-3 max-h-[600px] overflow-y-auto">
+                <p class="text-slate-400 text-sm italic text-center py-10">Aguardando novos chamados...</p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-6">
+            <div id="map" class="shadow-2xl border-2 border-slate-700"></div>
+            
+            <div id="detalhes-chamado" class="bg-slate-800 p-6 rounded-lg border border-slate-700 hidden">
+                <h2 class="text-xl font-bold mb-4">Detalhes da Ocorrência</h2>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-slate-400">Solicitante:</p>
+                        <p id="detalhe-nome" class="font-bold text-lg"></p>
+                    </div>
+                    <div>
+                        <p class="text-slate-400">Telefone:</p>
+                        <p id="detalhe-tel" class="font-bold text-lg text-blue-400"></p>
+                    </div>
+                    <div class="col-span-2">
+                        <p class="text-slate-400">Tipo:</p>
+                        <p id="detalhe-tipo" class="font-bold text-red-500 text-xl uppercase"></p>
+                    </div>
+                </div>
+                <div class="mt-6 flex gap-3">
+                    <button onclick="atenderChamado()" class="flex-1 bg-green-600 hover:bg-green-700 p-3 rounded font-bold">Despachar Viaturas</button>
+                    <button onclick="fecharDetalhes()" class="bg-slate-700 hover:bg-slate-600 p-3 rounded font-bold px-6">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <audio id="alerta-som" src="

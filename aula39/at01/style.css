@@ -1,0 +1,35 @@
+body 
+{ 
+    font-family: sans-serif; 
+    text-align: center; 
+    background: #e9ecef;
+ }
+.container 
+{ 
+    background: white; 
+    margin: 50px auto; 
+    padding: 30px; 
+    width: 350px; 
+    border-radius: 15px;
+ }
+.display 
+{ 
+    font-size: 3rem; 
+    font-weight: bold; 
+    color: #28a745; 
+    margin-bottom: 20px; 
+}
+.barra-fundo 
+{ 
+    background: #dee2e6; 
+    height: 20px; 
+    border-radius: 10px; 
+    overflow: hidden;
+ }
+#barra-progresso 
+{ 
+    background: #28a745; 
+    height: 100%; 
+    width: 0%; 
+    transition: width 1s; 
+}

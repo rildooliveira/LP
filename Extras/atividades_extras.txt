@@ -1,0 +1,2218 @@
+-------------------
+Aula 36
+-------------------
+
+Nesta primeira etapa, focamos na **Tarefa A (Conexão)**, **Tarefa B (Feedback Visual)** e **Tarefa C (Log de Auditoria)**. O objetivo é garantir que o "coração" do Hub (o script) esteja batendo e conectado à interface.
+
+### 1. Preparação do Repositório
+
+* Pasta: `LP/projeto-hub` (usaremos esta mesma pasta até o fim).
+* Arquivos: `index.html`, `style.css`, `script.js`.
+
+### 2. Interface Base (HTML)
+
+O HTML define o esqueleto do Dashboard. Note o uso de IDs estratégicos para as futuras expansões.
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ForkLabs - Innovation Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hub-container">
+        <header>
+            <h1>ForkLabs <span id="tag-hub">Hub</span></h1>
+            <div id="led-status" class="led-off"></div>
+        </header>
+
+        <main id="dashboard-content">
+            <section class="panel-info">
+                <p>Status do Servidor: <strong id="status-texto">DESCONECTADO</strong></p>
+            </section>
+        </main>
+
+        <footer id="terminal-auditoria">
+            </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+```
+
+### 3. Estilização Inicial (CSS)
+
+O CSS define o estado "Offline" e a transição para o estado "Ativo".
+
+```css
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; display: flex; justify-content: center; padding: 40px; }
+#hub-container { width: 500px; background: #1e293b; border-radius: 12px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 15px; }
+#led-status { width: 12px; height: 12px; border-radius: 50%; background: #64748b; }
+
+/* Classe que será injetada pelo JS */
+.led-on { background: #10b981 !important; box-shadow: 0 0 10px #10b981; }
+
+#terminal-auditoria { margin-top: 20px; background: #000; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.8rem; color: #10b981; min-height: 50px; }
+
+```
+
+---
+
+### 4. Implementação Técnica (JavaScript)
+
+Aqui realizamos a ativação do ambiente dividida em três frentes:
+
+**Tarefa A: Mapeamento de Pontes (DOM Selectors)**
+
+```javascript
+const elLed = document.getElementById("led-status");
+const elTexto = document.getElementById("status-texto");
+const elTerminal = document.getElementById("terminal-auditoria");
+
+```
+
+**Tarefa B: Ativação de Interface (Feedback Visual)**
+Confirmamos que o Hub está ligado mudando o LED e o texto de status.
+
+```javascript
+const ativarHub = () => {
+    elLed.classList.add("led-on");
+    elTexto.innerText = "SISTEMA OPERACIONAL";
+};
+
+```
+
+**Tarefa C: Auditoria de Inicialização (Log Técnico)**
+Geramos o primeiro rastro de dados do projeto.
+
+```javascript
+const registrarLog = (msg) => {
+    const hora = new Date().toLocaleTimeString();
+    elTerminal.innerHTML += `<p>> [${hora}] ${msg}</p>`;
+    console.log(`[FORKLABS] ${hora}: ${msg}`);
+};
+
+// Execução
+ativarHub();
+registrarLog("Núcleo de lógica carregado.");
+registrarLog("Interface ForkLabs sincronizada.");
+
+```
+
+---
+
+## Código Completo: Aula 36
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB FORKLABS - FASE 1
+ * Aula 36: Infraestrutura e Ativação
+ */
+
+// 1. MAPEAMENTO (Tarefa A)
+const led = document.getElementById("led-status");
+const statusTxt = document.getElementById("status-texto");
+const terminal = document.getElementById("terminal-auditoria");
+
+// 2. AÇÃO VISUAL (Tarefa B)
+const inicializarSistema = () => {
+    // Liga o LED e atualiza o texto
+    led.classList.add("led-on");
+    statusTxt.innerText = "HUB ONLINE";
+    statusTxt.style.color = "#10b981";
+};
+
+// 3. LOG DE GOVERNANÇA (Tarefa C)
+const addLog = (mensagem) => {
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${mensagem}</p>`;
+};
+
+// Start
+inicializarSistema();
+addLog("Conexão estabelecida com sucesso.");
+addLog("Aguardando definição de Variáveis (Aula 37)...");
+
+```
+
+**O primeiro passo do seu Hub de Inovação está pronto! Gostaria que eu prosseguisse para a Aula 37 (Variáveis e Tipos), onde adicionaremos os metadados do Hub e a Ficha de Ativos?**
+
+
+-------------------
+Aula 37
+-------------------
+## Aula 37: Identidade e Metadados do Hub
+
+Nesta etapa, vamos registrar as informações fundamentais do Hub. O objetivo é 
+utilizar variáveis para armazenar o capital intelectual e constantes para dados que não devem sofrer 
+alteração, validando tudo através da auditoria de tipos.
+
+### 1. Atualização da Interface (HTML)
+
+No arquivo `index.html`, vamos adicionar uma nova seção dentro do `<main>` para exibir os metadados:
+
+```html
+<section id="panel-metadata" class="card">
+    <h3>Identidade do Sistema</h3>
+    <div class="info-row">
+        <p><strong>Nome do Hub:</strong> <span id="hub-nome">--</span></p>
+        <p><strong>Versão:</strong> <span id="hub-versao">--</span></p>
+        <p><strong>Ano de Fundação:</strong> <span id="hub-ano">--</span></p>
+    </div>
+    <div id="type-audit" class="audit-box">
+        <h4>Auditoria de Tipagem</h4>
+        <ul id="log-tipos"></ul>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Metadados (CSS)
+
+Adicione estas regras ao seu arquivo `style.css` para organizar a nova seção:
+
+```css
+.card { background: #1e293b; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #334155; }
+.info-row p { margin: 8px 0; font-size: 0.9rem; color: #94a3b8; }
+.info-row strong { color: #f8fafc; }
+
+.audit-box { margin-top: 15px; padding: 10px; background: #0f172a; border-radius: 4px; font-family: monospace; font-size: 0.8rem; }
+.audit-box h4 { color: #64748b; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; }
+#log-tipos { list-style: none; padding: 0; color: #38bdf8; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, vamos evoluir o sistema com três novas frentes de trabalho:
+
+**Tarefa A: Definição de Memória (Const vs Let)**
+Vamos armazenar o nome do Hub (constante) e a versão (mutável), garantindo que o núcleo da identidade seja protegido.
+
+```javascript
+// Dados Fundamentais
+const nomeHub = "Hub de Inovação Tecnológica"; // Imutável
+let versaoSistema = 1.0;                        // Mutável
+let anoFundacao = 2026;                         // Number
+let emOperacao = true;                          // Boolean
+
+```
+
+**Tarefa B: Auditoria de Integridade (Typeof)**
+Conforme a governança de dados, precisamos validar se as variáveis carregadas possuem os tipos primitivos corretos antes de exibi-las.
+
+```javascript
+// Captura dos tipos para o log técnico
+const auditNome = typeof nomeHub;
+const auditVersao = typeof versaoSistema;
+const auditAno = typeof anoFundacao;
+
+```
+
+**Tarefa C: Injeção de Metadados no DOM**
+Conectamos as variáveis à interface para que o usuário visualize a identidade do projeto processada.
+
+```javascript
+const carregarMetadados = () => {
+    document.getElementById("hub-nome").innerText = nomeHub;
+    document.getElementById("hub-versao").innerText = versaoSistema.toFixed(1);
+    document.getElementById("hub-ano").innerText = anoFundacao;
+
+    const listaTipos = document.getElementById("log-tipos");
+    listaTipos.innerHTML = `
+        <li>> Nome: [${auditNome}]</li>
+        <li>> Versão: [${auditVersao}]</li>
+        <li>> Ano: [${auditAno}]</li>
+    `;
+};
+
+```
+
+---
+
+## Código Completo: Aula 37 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 2
+ * Aula 37: Variáveis e Tipagem
+ */
+
+// 1. INFRAESTRUTURA (Aulas anteriores)
+const led = document.getElementById("led-status");
+const statusTxt = document.getElementById("status-texto");
+const terminal = document.getElementById("terminal-auditoria");
+
+const addLog = (msg) => {
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+    console.log(`[HUB] ${agora}: ${msg}`);
+};
+
+// 2. IDENTIDADE DO HUB (Tarefa A)
+const nomeHub = "Hub de Inovação Tecnológica";
+let versaoSistema = 1.0;
+let anoFundacao = 2026;
+
+// 3. RENDERIZAÇÃO E AUDITORIA (Tarefa B e C)
+const renderizarHub = () => {
+    // Ativação Visual
+    led.classList.add("led-on");
+    statusTxt.innerText = "SISTEMA OPERACIONAL";
+
+    // Injeção de Metadados
+    document.getElementById("hub-nome").innerText = nomeHub;
+    document.getElementById("hub-versao").innerText = versaoSistema.toFixed(1);
+    document.getElementById("hub-ano").innerText = anoFundacao;
+
+    // Auditoria de Tipos
+    const listaTipos = document.getElementById("log-tipos");
+    listaTipos.innerHTML = `
+        <li>> Identidade: ${typeof nomeHub}</li>
+        <li>> Versão: ${typeof versaoSistema}</li>
+        <li>> Fundação: ${typeof anoFundacao}</li>
+    `;
+
+    addLog("Identidade do Hub carregada com sucesso.");
+    addLog(`Versão ${versaoSistema} validada via auditoria de tipos.`);
+};
+
+// Start
+renderizarHub();
+
+
+-------------------
+Aula 38
+-------------------
+
+Nesta etapa, transformaremos dados brutos em indicadores de desempenho (KPIs). 
+O objetivo é utilizar operadores aritméticos para calcular a eficiência do Hub e refletir 
+esse resultado em uma barra de progresso visual, tornando a "saúde" do sistema tangível para o usuário.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione a seção de performance logo abaixo da identidade do sistema:
+
+```html
+<section id="panel-performance" class="card">
+    <h3>Performance Operacional</h3>
+    <div class="metrics-container">
+        <p>Projetos Ativos: <span id="val-ativos">0</span> / <span id="val-meta">0</span></p>
+        <div class="progress-bg">
+            <div id="progress-bar-fill"></div>
+        </div>
+        <p id="label-eficiencia">Eficiência: 0%</p>
+    </div>
+</section>
+
+```
+
+### 2. Estilização do Medidor (CSS)
+
+Adicione estas regras ao `style.css` para criar a barra de progresso dinâmica:
+
+```css
+.metrics-container { text-align: left; margin-top: 15px; }
+
+.progress-bg { 
+    background: #334155; 
+    height: 12px; 
+    border-radius: 6px; 
+    margin: 10px 0; 
+    overflow: hidden; 
+}
+
+#progress-bar-fill { 
+    background: linear-gradient(90deg, #38bdf8, #10b981); 
+    height: 100%; 
+    width: 0%; /* Será controlado pelo JS */
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+#label-eficiencia { 
+    font-weight: bold; 
+    color: #10b981; 
+    font-size: 1.1rem; 
+    text-align: right; 
+}
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, vamos implementar a lógica de cálculo dividida em três tarefas fundamentais:
+
+**Tarefa A: Definição de Variáveis de Produção**
+Vamos definir a capacidade máxima do Hub e o volume atual de projetos em desenvolvimento.
+
+```javascript
+// Dados de Operação (Inputs)
+let capacidadeProjetos = 50; 
+let projetosAtivos = 38;
+
+```
+
+**Tarefa B: Cálculo de Eficiência (Operadores Aritméticos)**
+Utilizaremos os operadores de divisão (`/`) e multiplicação (`*`) para encontrar a porcentagem de ocupação do Hub.
+
+```javascript
+// A lógica matemática (Processamento)
+let calculoEficiencia = (projetosAtivos / capacidadeProjetos) * 100;
+
+```
+
+**Tarefa C: Injeção Visual e Atualização de KPIs**
+Agora, conectamos o resultado matemático à largura (`width`) da barra de progresso e ao texto da interface.
+
+```javascript
+const carregarPerformance = () => {
+    document.getElementById("val-ativos").innerText = projetosAtivos;
+    document.getElementById("val-meta").innerText = capacidadeProjetos;
+    document.getElementById("label-eficiencia").innerText = `Eficiência: ${calculoEficiencia.toFixed(1)}%`;
+
+    // Atualiza a largura da barra dinamicamente
+    const barra = document.getElementById("progress-bar-fill");
+    barra.style.width = calculoEficiencia + "%";
+};
+
+```
+
+---
+
+## Código Completo: Aula 38 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 3
+ * Aula 38: Operadores e Performance
+ */
+
+// 1. DADOS TÉCNICOS (Fases 1 e 2)
+const nomeHub = "Hub de Inovação Tecnológica";
+let versaoSistema = 1.0;
+
+// 2. DADOS OPERACIONAIS (Tarefa A)
+let capacidadeProjetos = 50;
+let projetosAtivos = 42; // Mude este valor para ver a barra mudar
+
+// 3. LOG DE GOVERNANÇA (Reutilizável)
+const addLog = (msg) => {
+    const terminal = document.getElementById("terminal-auditoria");
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+};
+
+// 4. MOTOR DE RENDERIZAÇÃO (Tarefa B e C)
+const atualizarHub = () => {
+    // A. Cálculos Aritméticos
+    let eficiencia = (projetosAtivos / capacidadeProjetos) * 100;
+
+    // B. Atualização da Identidade
+    document.getElementById("led-status").classList.add("led-on");
+    document.getElementById("hub-nome").innerText = nomeHub;
+    document.getElementById("hub-versao").innerText = versaoSistema.toFixed(1);
+
+    // C. Atualização da Performance (Visual)
+    document.getElementById("val-ativos").innerText = projetosAtivos;
+    document.getElementById("val-meta").innerText = capacidadeProjetos;
+    document.getElementById("label-eficiencia").innerText = `Eficiência: ${eficiencia.toFixed(1)}%`;
+    
+    // Animação da barra de progresso
+    const elBarra = document.getElementById("progress-bar-fill");
+    elBarra.style.width = `${eficiencia}%`;
+
+    // Auditoria de Tipos (Aula 37)
+    document.getElementById("log-tipos").innerHTML = `
+        <li>> Nome: [${typeof nomeHub}]</li>
+        <li>> Eficiência: [${typeof eficiencia}]</li>
+    `;
+
+    addLog(`Cálculo de performance concluído: ${eficiencia.toFixed(1)}% de ocupação.`);
+};
+
+// Start
+atualizarHub();
+
+```
+
+-------------------
+Aula 39
+-------------------
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, vamos adicionar um "Painel de Status de Segurança" que mudará de cor conforme a lógica do JavaScript:
+
+```html
+<section id="panel-security" class="card">
+    <h3>Governança e Segurança</h3>
+    <div id="status-box" class="security-normal">
+        <p id="security-msg">SISTEMA ESTÁVEL</p>
+    </div>
+    <p id="security-instruction"><small>Aguardando análise de tráfego...</small></p>
+</section>
+
+```
+
+### 2. Estilização de Estados de Alerta (CSS)
+
+No arquivo `style.css`, definiremos as cores para cada nível de criticidade:
+
+```css
+#status-box { 
+    padding: 15px; 
+    border-radius: 6px; 
+    text-align: center; 
+    font-weight: bold; 
+    margin-top: 10px; 
+    transition: all 0.5s ease; 
+}
+
+/* Classes de estado controladas pelo IF/ELSE */
+.security-normal { background: #064e3b; color: #10b981; border: 1px solid #059669; }
+.security-warning { background: #451a03; color: #fbbf24; border: 1px solid #b45309; }
+.security-critical { background: #450a0a; color: #f87171; border: 1px solid #991b1b; }
+
+#security-instruction { font-size: 0.8rem; color: #64748b; margin-top: 8px; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a ativação da lógica de decisão dividida em três frentes:
+
+**Tarefa A: Avaliação de Limites (If/Else If/Else)**
+Definiremos os "Gatilhos de Segurança" baseados na variável `eficiencia`.
+
+```javascript
+// Gatilhos de decisão
+if (eficiencia > 90) {
+    // Caso de Sobrecarga Crítica
+} else if (eficiencia > 70) {
+    // Caso de Atenção/Warning
+} else {
+    // Caso de Estabilidade
+}
+
+```
+
+**Tarefa B: Reatividade Visual (Manipulação de Classes)**
+O JavaScript irá "injetar" a classe CSS correta e atualizar a mensagem de texto para o gestor do Hub.
+
+```javascript
+const elStatusBox = document.getElementById("status-box");
+const elStatusMsg = document.getElementById("security-msg");
+
+// Dentro da lógica do IF:
+elStatusBox.className = "security-critical";
+elStatusMsg.innerText = "ALERTA: SOBRECARGA TÉCNICA!";
+
+```
+
+**Tarefa C: Auditoria de Decisão (Log de Governança)**
+Registraremos no terminal do Hub qual caminho a lógica seguiu, garantindo a rastreabilidade do sistema.
+
+```javascript
+addLog(`Auditoria de Segurança: Nível de risco processado com sucesso.`);
+
+```
+
+---
+
+## Código Completo: Aula 39 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 4
+ * Aula 39: Estruturas Condicionais (if/else)
+ */
+
+// 1. DADOS DE ENTRADA (Fases Anteriores)
+const nomeHub = "Hub de Inovação Tecnológica";
+let capacidadeProjetos = 50;
+let projetosAtivos = 46; // Mude para 20, 38 ou 46 para testar os alertas
+
+// 2. FUNÇÃO DE LOG (Reutilizável)
+const addLog = (msg) => {
+    const terminal = document.getElementById("terminal-auditoria");
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+};
+
+// 3. MOTOR DE INTELIGÊNCIA DO HUB
+const processarHub = () => {
+    // A. Cálculos de Performance (Aula 38)
+    let eficiencia = (projetosAtivos / capacidadeProjetos) * 100;
+
+    // B. Mapeamento de Elementos (Aula 36)
+    const elLed = document.getElementById("led-status");
+    const elBarra = document.getElementById("progress-bar-fill");
+    const elStatusBox = document.getElementById("status-box");
+    const elStatusMsg = document.getElementById("security-msg");
+    const elInstrucao = document.getElementById("security-instruction");
+
+    // C. LÓGICA DE DECISÃO (Tarefa A e B - Aula 39)
+    if (eficiencia >= 90) {
+        elStatusBox.className = "security-critical";
+        elStatusMsg.innerText = "CRÍTICO: SOBRECARGA DE ATIVOS";
+        elInstrucao.innerText = "Bloqueio de novos projetos ativado imediatamente.";
+        elLed.style.background = "#f87171"; // LED Vermelho
+        addLog("ALERTA: Protocolo de segurança nível 3 ativado.");
+    } 
+    else if (eficiencia >= 70) {
+        elStatusBox.className = "security-warning";
+        elStatusMsg.innerText = "ATENÇÃO: ALTA OCUPAÇÃO";
+        elInstrucao.innerText = "Recomenda-se triagem de novos registros.";
+        elLed.style.background = "#fbbf24"; // LED Amarelo
+        addLog("AVISO: Sistema operando próximo ao limite operacional.");
+    } 
+    else {
+        elStatusBox.className = "security-normal";
+        elStatusMsg.innerText = "SISTEMA ESTÁVEL";
+        elInstrucao.innerText = "Hub operando dentro da margem de segurança.";
+        elLed.style.background = "#10b981"; // LED Verde (Padrão)
+    }
+
+    // D. ATUALIZAÇÃO DA INTERFACE (Sincronização Final)
+    document.getElementById("hub-nome").innerText = nomeHub;
+    document.getElementById("val-ativos").innerText = projetosAtivos;
+    document.getElementById("val-meta").innerText = capacidadeProjetos;
+    document.getElementById("label-eficiencia").innerText = `Eficiência: ${eficiencia.toFixed(1)}%`;
+    elBarra.style.width = `${eficiencia}%`;
+
+    addLog(`Auditoria de performance concluída (${eficiencia.toFixed(1)}%).`);
+};
+
+// Inicializar processamento
+processarHub();
+
+```
+
+-------------------
+Aula 40
+-------------------
+Esta é a revisão da **Aula 39** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que o sistema calcula a performance, vamos dar a ele "capacidade de julgamento". O objetivo é criar um **Sistema de Alerta de Sobrecarga** que monitora a eficiência e altera a segurança do Hub automaticamente.
+
+---
+
+## Aula 39: Tomada de Decisão e Alerta de Sobrecarga
+
+Nesta etapa, o Hub deixará de ser apenas um mostrador de números para se tornar um sistema reativo. Conforme BRASIL (2018), a automação de alertas é fundamental para a governança de ativos, permitindo respostas rápidas a estados críticos de operação.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, vamos adicionar um "Painel de Status de Segurança" que mudará de cor conforme a lógica do JavaScript:
+
+```html
+<section id="panel-security" class="card">
+    <h3>Governança e Segurança</h3>
+    <div id="status-box" class="security-normal">
+        <p id="security-msg">SISTEMA ESTÁVEL</p>
+    </div>
+    <p id="security-instruction"><small>Aguardando análise de tráfego...</small></p>
+</section>
+
+```
+
+### 2. Estilização de Estados de Alerta (CSS)
+
+No arquivo `style.css`, definiremos as cores para cada nível de criticidade:
+
+```css
+#status-box { 
+    padding: 15px; 
+    border-radius: 6px; 
+    text-align: center; 
+    font-weight: bold; 
+    margin-top: 10px; 
+    transition: all 0.5s ease; 
+}
+
+/* Classes de estado controladas pelo IF/ELSE */
+.security-normal { background: #064e3b; color: #10b981; border: 1px solid #059669; }
+.security-warning { background: #451a03; color: #fbbf24; border: 1px solid #b45309; }
+.security-critical { background: #450a0a; color: #f87171; border: 1px solid #991b1b; }
+
+#security-instruction { font-size: 0.8rem; color: #64748b; margin-top: 8px; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a ativação da lógica de decisão dividida em três frentes:
+
+**Tarefa A: Avaliação de Limites (If/Else If/Else)**
+Definiremos os "Gatilhos de Segurança" baseados na variável `eficiencia`.
+
+```javascript
+// Gatilhos de decisão
+if (eficiencia > 90) {
+    // Caso de Sobrecarga Crítica
+} else if (eficiencia > 70) {
+    // Caso de Atenção/Warning
+} else {
+    // Caso de Estabilidade
+}
+
+```
+
+**Tarefa B: Reatividade Visual (Manipulação de Classes)**
+O JavaScript irá "injetar" a classe CSS correta e atualizar a mensagem de texto para o gestor do Hub.
+
+```javascript
+const elStatusBox = document.getElementById("status-box");
+const elStatusMsg = document.getElementById("security-msg");
+
+// Dentro da lógica do IF:
+elStatusBox.className = "security-critical";
+elStatusMsg.innerText = "ALERTA: SOBRECARGA TÉCNICA!";
+
+```
+
+**Tarefa C: Auditoria de Decisão (Log de Governança)**
+Registraremos no terminal do Hub qual caminho a lógica seguiu, garantindo a rastreabilidade do sistema.
+
+```javascript
+addLog(`Auditoria de Segurança: Nível de risco processado com sucesso.`);
+
+```
+
+---
+
+## Código Completo: Aula 39 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 4
+ * Aula 39: Estruturas Condicionais (if/else)
+ */
+
+// 1. DADOS DE ENTRADA (Fases Anteriores)
+const nomeHub = "Hub de Inovação Tecnológica";
+let capacidadeProjetos = 50;
+let projetosAtivos = 46; // Mude para 20, 38 ou 46 para testar os alertas
+
+// 2. FUNÇÃO DE LOG (Reutilizável)
+const addLog = (msg) => {
+    const terminal = document.getElementById("terminal-auditoria");
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+};
+
+// 3. MOTOR DE INTELIGÊNCIA DO HUB
+const processarHub = () => {
+    // A. Cálculos de Performance (Aula 38)
+    let eficiencia = (projetosAtivos / capacidadeProjetos) * 100;
+
+    // B. Mapeamento de Elementos (Aula 36)
+    const elLed = document.getElementById("led-status");
+    const elBarra = document.getElementById("progress-bar-fill");
+    const elStatusBox = document.getElementById("status-box");
+    const elStatusMsg = document.getElementById("security-msg");
+    const elInstrucao = document.getElementById("security-instruction");
+
+    // C. LÓGICA DE DECISÃO (Tarefa A e B - Aula 39)
+    if (eficiencia >= 90) {
+        elStatusBox.className = "security-critical";
+        elStatusMsg.innerText = "CRÍTICO: SOBRECARGA DE ATIVOS";
+        elInstrucao.innerText = "Bloqueio de novos projetos ativado imediatamente.";
+        elLed.style.background = "#f87171"; // LED Vermelho
+        addLog("ALERTA: Protocolo de segurança nível 3 ativado.");
+    } 
+    else if (eficiencia >= 70) {
+        elStatusBox.className = "security-warning";
+        elStatusMsg.innerText = "ATENÇÃO: ALTA OCUPAÇÃO";
+        elInstrucao.innerText = "Recomenda-se triagem de novos registros.";
+        elLed.style.background = "#fbbf24"; // LED Amarelo
+        addLog("AVISO: Sistema operando próximo ao limite operacional.");
+    } 
+    else {
+        elStatusBox.className = "security-normal";
+        elStatusMsg.innerText = "SISTEMA ESTÁVEL";
+        elInstrucao.innerText = "Hub operando dentro da margem de segurança.";
+        elLed.style.background = "#10b981"; // LED Verde (Padrão)
+    }
+
+    // D. ATUALIZAÇÃO DA INTERFACE (Sincronização Final)
+    document.getElementById("hub-nome").innerText = nomeHub;
+    document.getElementById("val-ativos").innerText = projetosAtivos;
+    document.getElementById("val-meta").innerText = capacidadeProjetos;
+    document.getElementById("label-eficiencia").innerText = `Eficiência: ${eficiencia.toFixed(1)}%`;
+    elBarra.style.width = `${eficiencia}%`;
+
+    addLog(`Auditoria de performance concluída (${eficiencia.toFixed(1)}%).`);
+};
+
+// Inicializar processamento
+processarHub();
+
+```
+
+O Hub de Inovação agora é inteligente e capaz de se proteger. Gostaria que eu prosseguisse para a **Aula 40 (Estruturas de Repetição)**, onde adicionaremos uma **Lista de Monitoramento de Lotes de Código**, gerando registros automáticos via loop?
+-------------------
+Aula 41
+-------------------
+Esta é a revisão da **Aula 41** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que o sistema monitora lotes automaticamente, vamos dar ao usuário o poder de interagir com o lado financeiro da Propriedade Intelectual. O objetivo é criar uma **Calculadora de Royalties Modular**, demonstrando como encapsular a lógica de negócio em funções reutilizáveis.
+
+---
+
+## Aula 41: Interatividade e Funções Modulares
+
+Nesta etapa, o Hub deixará de ser apenas um observador para se tornar uma ferramenta ativa. Conforme MENEZES (2024), a modularização do código em funções específicas reduz o tempo de manutenção e previne erros de lógica. Vamos separar o "cálculo matemático" da "exibição na tela", seguindo as melhores práticas de desenvolvimento.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione a seção de simulação financeira após o monitoramento de lotes:
+
+```html
+<section id="panel-finance" class="card">
+    <h3>Simulador de Royalties (IP)</h3>
+    <div class="input-row">
+        <input type="number" id="input-contrato" placeholder="Valor do Contrato (R$)">
+        <input type="number" id="input-taxa-royalty" placeholder="Taxa (%)">
+    </div>
+    
+    <button id="btn-calcular-hub" onclick="processarRoyaltiesHub()">Processar Créditos</button>
+    
+    <div id="finance-result" class="oculto">
+        <p>Royalties Brutos: <span id="out-bruto">--</span></p>
+        <p>Retenção Técnica (10%): <span id="out-taxa-hub">--</span></p>
+        <hr>
+        <h4>Crédito Líquido: <span id="out-total-hub">--</span></h4>
+    </div>
+</section>
+
+```
+
+### 2. Estilização Financeira (CSS)
+
+No arquivo `style.css`, daremos um visual funcional aos inputs e botões:
+
+```css
+.input-row { display: flex; gap: 10px; margin-top: 15px; }
+input { 
+    flex: 1; 
+    padding: 10px; 
+    background: #0f172a; 
+    border: 1px solid #334155; 
+    color: #f8fafc; 
+    border-radius: 4px; 
+    font-size: 0.85rem; 
+}
+
+#btn-calcular-hub { 
+    width: 100%; 
+    margin-top: 10px; 
+    padding: 12px; 
+    background: #38bdf8; 
+    color: #0f172a; 
+    border: none; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background 0.3s; 
+}
+#btn-calcular-hub:hover { background: #0ea5e9; }
+
+#finance-result { 
+    margin-top: 20px; 
+    padding: 15px; 
+    background: #1e293b; 
+    border-radius: 6px; 
+    border-left: 4px solid #38bdf8; 
+}
+#finance-result p { font-size: 0.85rem; color: #94a3b8; margin: 5px 0; }
+#finance-result h4 { color: #38bdf8; font-size: 1.1rem; margin-top: 10px; }
+.oculto { display: none; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a modularização dividida em três tarefas de alta precisão:
+
+**Tarefa A: Encapsulamento de Lógica (Pure Functions)**
+Criaremos uma função focada exclusivamente no cálculo, independente da interface.
+
+```javascript
+// TAREFA A: Lógica Pura (Processamento)
+const calcularRoyaltiesIP = (valor, taxa) => {
+    return valor * (taxa / 100);
+};
+
+const calcularTaxaServico = (bruto) => {
+    return bruto * 0.10; // Taxa de serviço fixa de 10%
+};
+
+```
+
+**Tarefa B: Orquestração de Dados (Interface Control)**
+Esta função fará o "meio de campo": lê o que o usuário digitou, chama as funções da Tarefa A e prepara a saída.
+
+```javascript
+// TAREFA B: Orquestração (Controller)
+function processarRoyaltiesHub() {
+    const vContrato = parseFloat(document.getElementById("input-contrato").value);
+    const pTaxa = parseFloat(document.getElementById("input-taxa-royalty").value);
+
+    // Validação de entrada
+    if (!vContrato || !pTaxa) {
+        alert("Erro: Preencha os valores financeiros corretamente.");
+        return;
+    }
+
+    const bruto = calcularRoyaltiesIP(vContrato, pTaxa);
+    const retencao = calcularTaxaServico(bruto);
+    const liquido = bruto - retencao;
+
+    exibirResultadoFinanceiro(bruto, retencao, liquido);
+}
+
+```
+
+**Tarefa C: Formatação e Renderização Visual**
+Separaremos a lógica de formatação (moeda BRL) em uma função específica para manter o código limpo.
+
+```javascript
+// TAREFA C: Formatação (View)
+function exibirResultadoFinanceiro(b, r, l) {
+    const painel = document.getElementById("finance-result");
+    const formatar = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    document.getElementById("out-bruto").innerText = formatar(b);
+    document.getElementById("out-taxa-hub").innerText = formatar(r);
+    document.getElementById("out-total-hub").innerText = formatar(l);
+
+    painel.classList.remove("oculto");
+    addLog(`Financeiro: Simulação de royalty concluída para R$ ${b.toFixed(2)}.`);
+}
+
+```
+
+---
+
+## Código Completo: Aula 41 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 6
+ * Aula 41: Funções e Modularização
+ */
+
+// 1. UTILITÁRIOS E LOGS (Fases Anteriores)
+const addLog = (msg) => {
+    const terminal = document.getElementById("terminal-auditoria");
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+};
+
+// 2. TAREFA A: LÓGICA MODULAR (Cálculos)
+const calcRoyalties = (valor, taxa) => valor * (taxa / 100);
+const calcTaxaHub = (bruto) => bruto * 0.10;
+
+// 3. TAREFA B & C: ORQUESTRAÇÃO E INTERFACE
+function processarRoyaltiesHub() {
+    // Captura
+    const vContrato = parseFloat(document.getElementById("input-contrato").value);
+    const pTaxa = parseFloat(document.getElementById("input-taxa-royalty").value);
+
+    if (isNaN(vContrato) || isNaN(pTaxa)) {
+        alert("Por favor, insira valores válidos.");
+        return;
+    }
+
+    // Processamento
+    const bruto = calcRoyalties(vContrato, pTaxa);
+    const taxaHub = calcTaxaHub(bruto);
+    const liquido = bruto - taxaHub;
+
+    // Renderização Visual
+    const f = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    
+    document.getElementById("out-bruto").innerText = f(bruto);
+    document.getElementById("out-taxa-hub").innerText = f(taxaHub);
+    document.getElementById("out-total-hub").innerText = f(liquido);
+
+    document.getElementById("finance-result").classList.remove("oculto");
+    addLog(`Cálculo: Contrato de ${f(vContrato)} processado.`);
+}
+
+// 4. MOTOR DO SISTEMA (Evolução das Aulas 36-40)
+const inicializarHub = () => {
+    // Simulação de dados de performance
+    let cap = 50, ativos = 38;
+    let ef = (ativos / cap) * 100;
+
+    // Atualização DOM
+    document.getElementById("hub-nome").innerText = "Hub de Inovação Tecnológica";
+    document.getElementById("label-eficiencia").innerText = `Eficiência: ${ef.toFixed(1)}%`;
+    document.getElementById("progress-bar-fill").style.width = `${ef}%`;
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Loop de Lotes (Aula 40)
+    const logLotes = document.getElementById("log-lotes");
+    logLotes.innerHTML = "";
+    for(let i=1; i<=5; i++) {
+        logLotes.innerHTML += `<li>> Lote #0${i}: Verificado em ${new Date().toLocaleTimeString()}</li>`;
+    }
+
+    addLog("Sistema modular inicializado com sucesso.");
+};
+
+// Start
+inicializarHub();
+
+```
+
+O Hub de Inovação agora é uma ferramenta de cálculo interativa e profissional. Gostaria que eu prosseguisse para a **Aula 42 (Arrow Functions e Escopo)**, onde modernizaremos todo o código do Hub e criaremos um **Gerador de Tokens de Acesso Protegidos**?
+-------------------
+Aula 42
+-------------------
+Esta é a revisão da **Aula 42** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que temos interatividade, vamos elevar o padrão do código para o nível profissional moderno. O objetivo é utilizar **Arrow Functions** para simplificar a sintaxe e aplicar o **Escopo de Bloco** para criar um sistema de proteção de segredos industriais.
+
+---
+
+## Aula 42: Modernização e Proteção de Segredos (Arrow Functions e Escopo)
+
+Nesta etapa, o Hub passará por um "refactoring". Segundo MENEZES (2024), a utilização de Arrow Functions e o controle rigoroso de escopo são fundamentais para evitar conflitos de variáveis em sistemas complexos. Vamos criar um gerador de chaves de acesso que "nasce e morre" dentro da função, garantindo que nenhum invasor consiga capturar o segredo pelo console global.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione o "Cofre Digital" após a seção financeira:
+
+```html
+<section id="panel-security-vault" class="card">
+    <h3>Cofre de Segredos (Security Scope)</h3>
+    <div class="vault-info">
+        <p>Acesso Global: <span id="out-global-info">Público</span></p>
+        <button id="btn-gerar-token">Gerar Token Temporário</button>
+    </div>
+    
+    <div id="vault-display" class="oculto">
+        <p>Token Local (Protegido): <br><strong id="out-token-local">--</strong></p>
+        <p id="audit-msg"><small>Validando fronteiras de escopo...</small></p>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Camadas de Proteção (CSS)
+
+No arquivo `style.css`, daremos um visual de "criptografia" ao cofre:
+
+```css
+#panel-security-vault { border-top: 4px solid #8b5cf6; } /* Cor roxa para segurança */
+
+.vault-info { margin-bottom: 15px; }
+#btn-gerar-token { 
+    background: #8b5cf6; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    width: 100%;
+}
+#btn-gerar-token:hover { background: #7c3aed; }
+
+#vault-display { 
+    background: #020617; 
+    color: #a78bfa; 
+    padding: 15px; 
+    border-radius: 6px; 
+    margin-top: 15px; 
+    border: 1px dashed #4c1d95; 
+}
+
+#out-token-local { font-family: 'Courier New', monospace; font-size: 1.2rem; word-break: break-all; }
+#audit-msg { color: #10b981; margin-top: 10px; font-style: italic; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a modernização dividida em três tarefas críticas:
+
+**Tarefa A: Refatoração para Arrow Functions**
+Converteremos as funções de cálculo da aula anterior para a sintaxe `const nome = () =>`. Isso torna o código mais limpo e prepara o Hub para o uso de métodos de array modernos.
+
+```javascript
+// TAREFA A: Modernização (Arrow Functions)
+const calcRoyalties = (valor, taxa) => valor * (taxa / 100);
+const calcTaxaHub = bruto => bruto * 0.10;
+
+```
+
+**Tarefa B: Proteção por Escopo Local (Segredo Industrial)**
+Criaremos o gerador de tokens. A variável `segredoInterno` será declarada com `let` dentro da função. Ela não existirá para o restante do Hub, simulando uma camada de criptografia de memória.
+
+```javascript
+const gerarTokenHub = () => {
+    // TAREFA B: Variável de Escopo Local (Inacessível fora daqui)
+    let segredoInterno = "HUB-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+    
+    document.getElementById("out-token-local").innerText = segredoInterno;
+    document.getElementById("vault-display").classList.remove("oculto");
+    
+    verificarIntegridade(segredoInterno);
+};
+
+```
+
+**Tarefa C: Auditoria de Segurança (Try/Catch de Escopo)**
+Demonstraremos a eficácia do escopo tentando acessar a variável local a partir de uma função global. O sistema deve capturar o erro, provando que o dado está seguro.
+
+```javascript
+const verificarIntegridade = (tokenGerado) => {
+    try {
+        // Tentativa proposital de erro: acessar uma variável que não existe neste escopo
+        console.log("Tentando hackear segredo:", segredoInterno); 
+    } catch (erro) {
+        document.getElementById("audit-msg").innerText = "✔ Proteção de Escopo: Ativa. Dados locais isolados.";
+        addLog("Segurança: Tentativa de vazamento de escopo bloqueada pelo kernel.");
+    }
+};
+
+```
+
+---
+
+## Código Completo: Aula 42 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 7
+ * Aula 42: Arrow Functions e Escopo
+ */
+
+// 1. UTILITÁRIOS GLOBAIS (Arrow Functions)
+const addLog = msg => {
+    const terminal = document.getElementById("terminal-auditoria");
+    const agora = new Date().toLocaleTimeString();
+    terminal.innerHTML += `<p>> ${agora}: ${msg}</p>`;
+};
+
+// 2. TAREFA A: LÓGICA FINANCEIRA MODERNIZADA
+const calcularRoyalties = (v, t) => v * (t / 100);
+const formatarMoeda = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+// Função principal de cálculo (Agora como Arrow Function)
+const processarRoyaltiesHub = () => {
+    const vContrato = parseFloat(document.getElementById("input-contrato").value);
+    const pTaxa = parseFloat(document.getElementById("input-taxa-royalty").value);
+
+    if (isNaN(vContrato)) return alert("Dados inválidos.");
+
+    const bruto = calcularRoyalties(vContrato, pTaxa);
+    const liquido = bruto - (bruto * 0.10);
+
+    document.getElementById("out-total-hub").innerText = formatarMoeda(liquido);
+    document.getElementById("finance-result").classList.remove("oculto");
+    addLog(`Financeiro: Ativo processado via Arrow Function.`);
+};
+
+// 3. TAREFA B & C: GESTÃO DE SEGURANÇA E ESCOPO
+const dispararCofre = () => {
+    // Variável Local (Segredo) - Só existe durante a execução desta função
+    let tokenSeguro = "HIT-" + Date.now();
+    
+    const display = document.getElementById("out-token-local");
+    display.innerText = tokenSeguro;
+    document.getElementById("vault-display").classList.remove("oculto");
+
+    // Teste de Auditoria
+    try {
+        // Isso causará um erro pois 'tokenSeguro' não é global
+        validarForaDoEscopo(); 
+    } catch (e) {
+        document.getElementById("audit-msg").innerText = "✔ Escopo Isolado com Sucesso.";
+        addLog("Auditoria: Proteção de memória verificada.");
+    }
+};
+
+const validarForaDoEscopo = () => {
+    // Esta função tentará acessar o segredo da outra função
+    console.log(tokenSeguro); // Erro esperado: tokenSeguro is not defined
+};
+
+// 4. MOTOR DE INICIALIZAÇÃO
+const initHub = () => {
+    document.getElementById("hub-nome").innerText = "Hub de Inovação Tecnológica";
+    document.getElementById("led-status").classList.add("led-on");
+    
+    // Configurando Eventos de Clique (Moderno)
+    document.getElementById("btn-gerar-token").addEventListener("click", dispararCofre);
+    
+    addLog("Ambiente Aula 42 (Modernizado) pronto.");
+};
+
+initHub();
+
+-------------------
+Aula 43
+-------------------
+Esta é a revisão da **Aula 43** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que temos um sistema moderno e protegido, vamos dar a ele a capacidade de gerenciar coleções de dados. O objetivo é construir um **Inventário Dinâmico de Ativos Digitais**, utilizando as operações fundamentais de arrays para criar uma fila de registros em tempo real.
+
+---
+
+## Aula 43: Inventário Dinâmico e Gestão de Filas (Arrays)
+
+Nesta etapa, o Hub passará a organizar múltiplos registros simultaneamente. Segundo MINNICK (2024), a manipulação eficiente de arrays é o que permite que sistemas de **Propriedade Intelectual** processem filas de pedidos (FIFO - *First In, First Out*) sem perda de integridade. Vamos aprender a inserir, remover e contar elementos de forma sincronizada com a interface.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione a seção de inventário após o cofre de segredos:
+
+```html
+<section id="panel-inventory" class="card">
+    <h3>Inventário de Ativos Digitais</h3>
+    
+    <div class="input-group-array">
+        <input type="text" id="input-novo-ativo" placeholder="Nome do Software/Patente...">
+        <button id="btn-add-ativo">Registrar Ativo</button>
+    </div>
+
+    <div class="queue-controls">
+        <button id="btn-processar-fila" class="btn-warning">Processar Primeiro da Fila</button>
+        <p>Ativos na Fila: <strong id="count-ativos-fila">0</strong></p>
+    </div>
+
+    <ul id="lista-ativos-visual">
+        </ul>
+</section>
+
+```
+
+### 2. Estilização de Fila e Controles (CSS)
+
+No arquivo `style.css`, daremos um visual organizado à nossa lista de ativos:
+
+```css
+#panel-inventory { border-left: 5px solid #10b981; }
+
+.input-group-array { display: flex; gap: 8px; margin-bottom: 15px; }
+.input-group-array input { flex: 1; }
+
+#btn-add-ativo { background: #10b981; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+.queue-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px; background: #0f172a; border-radius: 6px; }
+.btn-warning { background: #f59e0b; color: #000; border: none; padding: 8px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
+
+#lista-ativos-visual { list-style: none; padding: 0; }
+#lista-ativos-visual li { 
+    background: #1e293b; 
+    padding: 10px 15px; 
+    margin-bottom: 5px; 
+    border-radius: 4px; 
+    font-size: 0.85rem; 
+    display: flex; 
+    justify-content: space-between;
+    border-right: 3px solid #38bdf8;
+}
+#lista-ativos-visual li span { color: #94a3b8; font-size: 0.7rem; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a gestão da coleção dividida em três frentes de manipulação:
+
+**Tarefa A: Estado Inicial e Mapeamento (Memory Management)**
+Declararemos nosso array de inventário e capturaremos as referências. O array será a nossa "Fonte da Verdade" (*Single Source of Truth*).
+
+```javascript
+// TAREFA A: Declaração da Coleção (Array)
+let filaAtivos = ["Sistema Lucleo", "Módulo de Segurança", "App TFormulas"];
+
+const elListaVisual = document.getElementById("lista-ativos-visual");
+const elCountFila = document.getElementById("count-ativos-fila");
+
+```
+
+**Tarefa B: Mutação Dinâmica (Push e Shift)**
+Implementaremos a lógica para adicionar novos itens ao final da lista (`push`) e remover o mais antigo para processamento (`shift`), respeitando a ordem de chegada no Hub.
+
+```javascript
+// TAREFA B: Operações de Array
+const adicionarNovoAtivo = () => {
+    const input = document.getElementById("input-novo-ativo");
+    const nome = input.value.trim();
+
+    if (nome) {
+        filaAtivos.push(nome); // Adiciona ao final
+        input.value = "";
+        sincronizarInterface();
+        addLog(`Inventário: Novo ativo '${nome}' registrado.`);
+    }
+};
+
+const processarFila = () => {
+    if (filaAtivos.length > 0) {
+        const processado = filaAtivos.shift(); // Remove o primeiro
+        addLog(`Protocolo: Ativo '${processado}' enviado para homologação.`);
+        sincronizarInterface();
+    } else {
+        alert("A fila de ativos está vazia.");
+    }
+};
+
+```
+
+**Tarefa C: Sincronização e Auditoria Visual (Rendering)**
+Criaremos a função responsável por percorrer o array e reconstruir o HTML, garantindo que a tela sempre reflita o estado interno dos dados.
+
+```javascript
+// TAREFA C: Sincronização DOM x Array
+const sincronizarInterface = () => {
+    elListaVisual.innerHTML = ""; // Limpa visual anterior
+
+    filaAtivos.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${item}</strong> <span>Ref: #${index + 100}</span>`;
+        elListaVisual.appendChild(li);
+    });
+
+    elCountFila.innerText = filaAtivos.length;
+    console.log(`[AUDITORIA] Inventário atualizado: ${filaAtivos.length} itens.`);
+};
+
+```
+
+---
+
+## Código Completo: Aula 43 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 8
+ * Aula 43: Manipulação de Arrays e Gestão de Filas
+ */
+
+// 1. UTILITÁRIOS (Aulas Anteriores)
+const addLog = msg => {
+    const terminal = document.getElementById("terminal-auditoria");
+    terminal.innerHTML += `<p>> [${new Date().toLocaleTimeString()}] ${msg}</p>`;
+};
+
+// 2. TAREFA A: ESTADO DO INVENTÁRIO
+let inventarioAtivos = ["API Lucleo", "Módulo PIX", "Cripto-Vault"];
+
+// 3. TAREFA C: RENDERIZAÇÃO (View)
+const renderizarInventario = () => {
+    const lista = document.getElementById("lista-ativos-visual");
+    const contador = document.getElementById("count-ativos-fila");
+    
+    lista.innerHTML = ""; // Reset visual
+
+    // Percorrendo o array para gerar o HTML
+    inventarioAtivos.forEach((ativo, idx) => {
+        const item = document.createElement("li");
+        item.innerHTML = `<strong>${ativo}</strong> <span>Protocolo: ${idx + 2026}</span>`;
+        lista.appendChild(item);
+    });
+
+    contador.innerText = inventarioAtivos.length;
+};
+
+// 4. TAREFA B: OPERAÇÕES (Controller)
+const registrarAtivo = () => {
+    const input = document.getElementById("input-novo-ativo");
+    if (input.value.trim()) {
+        inventarioAtivos.push(input.value); // Inserção (Push)
+        addLog(`Inovação: Ativo '${input.value}' entrou na fila.`);
+        input.value = "";
+        renderizarInventario();
+    }
+};
+
+const despacharAtivo = () => {
+    if (inventarioAtivos.length > 0) {
+        const removido = inventarioAtivos.shift(); // Remoção (Shift)
+        addLog(`Homologação: Ativo '${removido}' foi processado.`);
+        renderizarInventario();
+    }
+};
+
+// 5. INICIALIZAÇÃO DO HUB
+const inicializarHub = () => {
+    // Configurações Globais
+    document.getElementById("hub-nome").innerText = "Hub de Inovação Tecnológica";
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Eventos (Aula 42)
+    document.getElementById("btn-add-ativo").addEventListener("click", registrarAtivo);
+    document.getElementById("btn-processar-fila").addEventListener("click", despacharAtivo);
+
+    // Primeira Renderização
+    renderizarInventario();
+    addLog("Módulo de Inventário carregado com 3 ativos iniciais.");
+};
+
+// Start do Core
+inicializarHub();
+
+-------------------
+Aula 44
+-------------------
+Esta é a revisão da **Aula 44** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que gerenciamos coleções de dados, vamos aplicar inteligência analítica a elas. O objetivo é construir um **Dashboard de Auditoria Financeira**, utilizando os métodos funcionais `map`, `filter` e `reduce` para extrair insights estratégicos do nosso inventário de ativos.
+
+---
+
+## Aula 44: Inteligência Analítica (Map, Filter, Reduce)
+
+Nesta etapa, o Hub deixará de apenas listar itens para realizar cálculos complexos de patrimônio. Segundo ALTO (2025), a análise de dados em tempo real é o que permite a tomada de decisão ágil em hubs de tecnologia. Vamos transformar o array de strings em um **Array de Objetos** para suportar valores financeiros e processá-los com máxima eficiência.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione a seção de auditoria financeira após o inventário:
+
+```html
+<section id="panel-audit-dashboard" class="card">
+    <h3>Auditoria de Patrimônio Intelectual</h3>
+    
+    <div class="audit-grid">
+        <div class="audit-card">
+            <small>Valor Total do Hub</small>
+            <h4 id="out-total-patrimonio">R$ 0,00</h4>
+        </div>
+        <div class="audit-card highlight-audit">
+            <small>Ativos de Alto Valor (>10k)</small>
+            <h4 id="out-count-criticos">0</h4>
+        </div>
+    </div>
+
+    <div class="audit-lists">
+        <h4>Filtragem de Ativos Críticos (Filter)</h4>
+        <ul id="lista-ativos-criticos">
+            </ul>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Dashboard Financeiro (CSS)
+
+No arquivo `style.css`, daremos um visual de "Analytics" ao painel:
+
+```css
+#panel-audit-dashboard { border-top: 4px solid #38bdf8; }
+
+.audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.audit-card { background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #1e293b; }
+.audit-card small { color: #94a3b8; font-size: 0.7rem; text-transform: uppercase; }
+.audit-card h4 { color: #f8fafc; font-size: 1.4rem; margin-top: 5px; }
+
+.highlight-audit { border-left: 4px solid #fbbf24; }
+.highlight-audit h4 { color: #fbbf24; }
+
+.audit-lists h4 { font-size: 0.8rem; color: #64748b; margin-bottom: 10px; }
+#lista-ativos-criticos { list-style: none; padding: 0; }
+#lista-ativos-criticos li { 
+    font-size: 0.8rem; 
+    color: #fbbf24; 
+    padding: 5px 0; 
+    border-bottom: 1px solid #1e293b; 
+}
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos o processamento analítico dividido em três tarefas funcionais:
+
+**Tarefa A: Consolidação de Patrimônio (Reduce)**
+Utilizaremos o `reduce` para percorrer o array de ativos e somar todos os seus valores monetários, gerando o montante total de capital intelectual do Hub.
+
+```javascript
+// TAREFA A: Somatório Total
+const totalPatrimonio = ativosData.reduce((soma, ativo) => {
+    return soma + ativo.valor;
+}, 0);
+
+```
+
+**Tarefa B: Filtragem de Ativos de Risco (Filter)**
+Selecionaremos apenas os ativos que possuem valor superior a R$ 10.000,00. Conforme TAULLI (2020), a identificação de itens críticos é essencial para a governança de riscos.
+
+```javascript
+// TAREFA B: Filtragem Crítica
+const ativosCriticos = ativosData.filter(ativo => ativo.valor > 10000);
+
+```
+
+**Tarefa C: Transformação de Dados para Interface (Map)**
+Utilizaremos o `map` para converter o array de objetos filtrados em uma coleção de elementos `<li>` formatados, prontos para serem injetados no DOM.
+
+```javascript
+// TAREFA C: Transformação em HTML
+const htmlCriticos = ativosCriticos.map(ativo => {
+    return `<li>⚠ ${ativo.nome} (R$ ${ativo.valor.toLocaleString()})</li>`;
+}).join("");
+
+```
+
+---
+
+## Código Completo: Aula 44 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 9
+ * Aula 44: Métodos de Iteração (Map, Filter, Reduce)
+ */
+
+// 1. DATA SOURCE (Inventário com valores financeiros)
+let ativosData = [
+    { nome: "Sistema Lucleo ERP", valor: 25000 },
+    { nome: "Módulo PIX Core", valor: 8500 },
+    { nome: "App TFormulas", valor: 12000 },
+    { nome: "Registro de Marca", valor: 1500 },
+    { nome: "Patente IA-Logic", valor: 45000 }
+];
+
+// 2. FUNÇÃO DE AUDITORIA ANALÍTICA (Core Aula 44)
+const realizarAuditoriaHub = () => {
+    // TAREFA A: REDUCE (Total do Patrimônio)
+    const totalSoma = ativosData.reduce((acc, obj) => acc + obj.valor, 0);
+    
+    // TAREFA B: FILTER (Ativos acima de 10k)
+    const criticos = ativosData.filter(item => item.valor > 10000);
+    
+    // TAREFA C: MAP (Transformação para visualização)
+    const listaCriticaHtml = criticos.map(c => `<li>⚠ ${c.nome}: R$ ${c.valor.toLocaleString()}</li>`).join("");
+
+    // 3. RENDERIZAÇÃO NO DASHBOARD
+    document.getElementById("out-total-patrimonio").innerText = totalSoma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    document.getElementById("out-count-criticos").innerText = criticos.length;
+    document.getElementById("lista-ativos-criticos").innerHTML = listaCriticaHtml;
+
+    // Log de Governança (Reutilizando conceitos anteriores)
+    const logMsg = `Auditoria Concluída: ${ativosData.length} ativos validados. Patrimônio: R$ ${totalSoma.toFixed(2)}`;
+    addLog(logMsg);
+};
+
+// 4. UTILITÁRIOS E INTEGRAÇÃO (Aulas 36-43)
+const addLog = msg => {
+    const terminal = document.getElementById("terminal-auditoria");
+    terminal.innerHTML += `<p>> [${new Date().toLocaleTimeString()}] ${msg}</p>`;
+};
+
+const inicializarHub = () => {
+    document.getElementById("hub-nome").innerText = "Hub de Inovação Tecnológica";
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Sincronizando o Inventário Visual (Aula 43)
+    const elLista = document.getElementById("lista-ativos-visual");
+    elLista.innerHTML = ativosData.map((a, idx) => `<li><strong>${a.nome}</strong> <span>R$ ${a.valor.toLocaleString()}</span></li>`).join("");
+    document.getElementById("count-ativos-fila").innerText = ativosData.length;
+
+    // Disparando a Auditoria da Aula 44
+    realizarAuditoriaHub();
+};
+
+const registrarNovoAtivo = () => {
+    const inputNome = document.getElementById("input-novo-ativo");
+    const nome = inputNome.value.trim();
+    
+    if (nome) {
+        // Simulando valor aleatório para novos ativos
+        const valorSimulado = Math.floor(Math.random() * 20000) + 1000;
+        ativosData.push({ nome: nome, valor: valorSimulado });
+        
+        inputNome.value = "";
+        inicializarHub(); // Re-renderiza tudo com os novos dados
+        addLog(`Sistema: Ativo '${nome}' registrado com valor de R$ ${valorSimulado}.`);
+    }
+};
+
+// Eventos
+document.getElementById("btn-add-ativo").addEventListener("click", registrarNovoAtivo);
+
+// Start
+inicializarHub();
+
+```
+
+O Hub de Inovação agora possui inteligência financeira e capacidade de auditoria automática. Gostaria que eu prosseguisse para a **Aula 45 (Objetos e JSON)**, onde criaremos um **Perfil de Autor de Software** completo e aprenderemos a exportar os dados do Hub para um formato de intercâmbio (JSON)?
+-------------------
+Aula 45
+-------------------
+Esta é a revisão da **Aula 45** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que temos inteligência analítica, vamos organizar essas informações em entidades estruturadas. O objetivo é construir um **Perfil de Autor de Software e Patentes** e implementar a **Exportação de Dados em JSON**, permitindo que o Hub se comunique com outros sistemas.
+
+---
+
+## Aula 45: Estruturas de Dados e Intercâmbio (Objetos e JSON)
+
+Nesta etapa, passamos de dados isolados para **Objetos Literais**. Segundo FLORES e BESS (2023), o uso de objetos permite que o software reflita o mundo real, agrupando características (propriedades) e comportamentos (métodos). Além disso, utilizaremos o formato **JSON** (*JavaScript Object Notation*), o padrão universal para tráfego de dados na web moderna.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione o "Perfil do Pesquisador Responsável" e a área de exportação:
+
+```html
+<section id="panel-author-profile" class="card">
+    <h3>Pesquisador Responsável</h3>
+    <div class="author-card">
+        <div id="author-avatar">IB</div>
+        <div class="author-info">
+            <h4 id="author-nome">--</h4>
+            <p id="author-role">--</p>
+            <p><small>Patentes: </small><strong id="author-patentes">0</strong></p>
+        </div>
+    </div>
+    
+    <div class="export-area">
+        <button id="btn-export-json" class="btn-dark">Exportar Banco do Hub (JSON)</button>
+    </div>
+
+    <div id="json-preview" class="oculto">
+        <h4>Pacote de Dados Serializado</h4>
+        <pre id="json-output"></pre>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Entidades (CSS)
+
+No arquivo `style.css`, daremos um visual premium ao perfil e à área de código:
+
+```css
+#panel-author-profile { border-top: 4px solid #6366f1; }
+
+.author-card { display: flex; align-items: center; gap: 15px; background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+#author-avatar { width: 50px; height: 50px; background: #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+.author-info h4 { margin: 0; color: #f8fafc; font-size: 1rem; }
+.author-info p { margin: 2px 0; color: #94a3b8; font-size: 0.8rem; }
+
+.btn-dark { width: 100%; padding: 10px; background: #1e293b; color: #6366f1; border: 1px solid #6366f1; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.btn-dark:hover { background: #6366f1; color: white; }
+
+#json-preview { margin-top: 15px; background: #020617; padding: 15px; border-radius: 6px; border: 1px solid #334155; }
+#json-preview h4 { font-size: 0.7rem; color: #6366f1; text-transform: uppercase; margin-bottom: 10px; }
+#json-output { font-family: 'Courier New', monospace; font-size: 0.75rem; color: #10b981; white-space: pre-wrap; word-break: break-all; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a modelagem dividida em três tarefas de organização de dados:
+
+**Tarefa A: Modelagem de Objeto Literal (Properties & Methods)**
+Criaremos um objeto para o autor, contendo dados biográficos e um método interno para calcular a produtividade intelectual.
+
+```javascript
+// TAREFA A: Objeto Autor
+const autorResponsavel = {
+    id: "AUTH-001",
+    nome: "Ivancley Brito",
+    formacao: "Mestrado em PI",
+    patentes: 5,
+    // Método para simular acréscimo de produção
+    registrarNovaPatente: function() {
+        this.patentes++;
+        return `Sucesso: ${this.nome} agora possui ${this.patentes} patentes.`;
+    }
+};
+
+```
+
+**Tarefa B: Gestão de Estado do Hub (Objeto Global)**
+Consolidaremos todas as variáveis soltas (nome do Hub, versão, ativos) em um único objeto de estado chamado `hubState`. Isso facilita a exportação e a manutenção.
+
+```javascript
+// TAREFA B: Estado Unificado
+const hubState = {
+    nome: "Hub de Inovação",
+    versao: 1.0,
+    timestamp: new Date().toISOString(),
+    autor: autorResponsavel,
+    bancoAtivos: [] // Será preenchido pelo inventário
+};
+
+```
+
+**Tarefa C: Serialização JSON (Intercambiabilidade)**
+Utilizaremos `JSON.stringify()` para converter o objeto de estado em uma string. Este "pacote" é o que seria enviado para uma API de registro de patentes.
+
+```javascript
+// TAREFA C: Exportação JSON
+const exportarDadosHub = () => {
+    // Atualiza o banco de ativos no estado global antes de exportar
+    hubState.bancoAtivos = ativosData; 
+    
+    // Converte para JSON com indentação de 4 espaços
+    const dadosProntos = JSON.stringify(hubState, null, 4);
+    
+    document.getElementById("json-output").innerText = dadosProntos;
+    document.getElementById("json-preview").classList.remove("oculto");
+    addLog("Sistema: Banco de dados serializado para JSON com sucesso.");
+};
+
+```
+
+---
+
+## Código Completo: Aula 45 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 10
+ * Aula 45: Objetos e JSON
+ */
+
+// 1. DATA SOURCE (Aulas 43 e 44)
+let ativosData = [
+    { nome: "Sistema Lucleo ERP", valor: 25000 },
+    { nome: "App TFormulas", valor: 12000 },
+    { nome: "Patente IA-Logic", valor: 45000 }
+];
+
+// 2. TAREFA A: OBJETO AUTOR
+const autorRef = {
+    nome: "Ivancley Brito",
+    cargo: "Mestrando em Propriedade Intelectual",
+    patentes: 5,
+    atualizarPerfil: function() {
+        document.getElementById("author-nome").innerText = this.nome;
+        document.getElementById("author-role").innerText = this.cargo;
+        document.getElementById("author-patentes").innerText = this.patentes;
+    }
+};
+
+// 3. MOTOR DE AUDITORIA (Aula 44)
+const realizarAuditoria = () => {
+    const total = ativosData.reduce((acc, obj) => acc + obj.valor, 0);
+    const criticos = ativosData.filter(item => item.valor > 10000);
+
+    document.getElementById("out-total-patrimonio").innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    document.getElementById("out-count-criticos").innerText = criticos.length;
+    document.getElementById("lista-ativos-criticos").innerHTML = criticos.map(c => `<li>⚠ ${c.nome}</li>`).join("");
+};
+
+// 4. TAREFA C: EXPORTAÇÃO JSON
+const exportarParaJSON = () => {
+    // TAREFA B: Criando o Objeto de Estado para exportação
+    const hubState = {
+        entidade: "Hub de Inovação",
+        dataAuditoria: new Date().toLocaleDateString(),
+        responsavel: autorRef.nome,
+        patrimonioTotal: ativosData.reduce((acc, obj) => acc + obj.valor, 0),
+        ativos: ativosData
+    };
+
+    const jsonFinal = JSON.stringify(hubState, null, 4);
+    document.getElementById("json-output").innerText = jsonFinal;
+    document.getElementById("json-preview").classList.remove("oculto");
+    addLog("Exportação: Snapshot do Hub gerado em formato JSON.");
+};
+
+// 5. INTEGRAÇÃO E INICIALIZAÇÃO (Aulas 36-44)
+const addLog = msg => {
+    const terminal = document.getElementById("terminal-auditoria");
+    terminal.innerHTML += `<p>> [${new Date().toLocaleTimeString()}] ${msg}</p>`;
+};
+
+const inicializarHub = () => {
+    // Identidade do Hub
+    document.getElementById("hub-nome").innerText = "Hub de Inovação";
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Inventário Visual
+    const elLista = document.getElementById("lista-ativos-visual");
+    elLista.innerHTML = ativosData.map(a => `<li><strong>${a.nome}</strong> <span>R$ ${a.valor.toLocaleString()}</span></li>`).join("");
+    document.getElementById("count-ativos-fila").innerText = ativosData.length;
+
+    // Métodos de Aula 45
+    autorRef.atualizarPerfil();
+    realizarAuditoria();
+};
+
+// Eventos
+document.getElementById("btn-add-ativo").addEventListener("click", () => {
+    const input = document.getElementById("input-novo-ativo");
+    if(input.value) {
+        ativosData.push({ nome: input.value, valor: Math.floor(Math.random() * 15000) });
+        input.value = "";
+        inicializarHub();
+        addLog(`Registro: Ativo adicionado ao objeto de dados.`);
+    }
+});
+
+document.getElementById("btn-export-json").addEventListener("click", exportarParaJSON);
+
+// Start do Core
+inicializarHub();
+
+```
+
+O Hub de Inovação agora é uma plataforma de dados completa, capaz de organizar perfis complexos e exportar todo o seu estado para integração externa. Gostaria que eu prosseguisse para a **Aula 46 (Introdução ao DOM e Seletores)**, onde aprenderemos a navegar em estruturas complexas do Hub para criar um **Editor Dinâmico de Certificados**?
+
+-------------------
+Aula 46
+-------------------
+Esta é a revisão da **Aula 46** do nosso projeto evolutivo: o **Hub de Inovação**. Agora que organizamos os dados em objetos, vamos aprender a "enxergar" e manipular cada detalhe da interface com precisão cirúrgica. O objetivo é construir um **Gerador Dinâmico de Certificados de Inovação**, utilizando os seletores de elite do DOM.
+
+---
+
+## Aula 46: Navegação e Seleção de Precisão (Seletores DOM)
+
+Nesta etapa, o Hub ganhará a capacidade de editar documentos oficiais em tempo real. Segundo MINNICK (2024), o DOM é a representação em árvore do seu HTML; saber navegar por esses "galhos" é o que diferencia um programador básico de um desenvolvedor de interfaces dinâmicas. Vamos explorar o `getElementById`, o versátil `querySelector` e o potente `querySelectorAll`.
+
+### 1. Evolução da Interface (HTML)
+
+No arquivo `index.html`, adicione o modelo de certificado após o perfil do autor. Note que usaremos classes e IDs específicos para testar diferentes seletores:
+
+```html
+<section id="panel-certificate-editor" class="card">
+    <h3>Editor de Certificados de Ativo</h3>
+    
+    <div id="certificate-preview" class="cert-base">
+        <h1 id="cert-title">CERTIFICADO DE REGISTRO</h1>
+        <div class="cert-body">
+            <p>Pelo presente documento, valida-se que o ativo <span class="cert-field" data-type="name">--</span>, 
+            avaliado em <span class="cert-field" data-type="value">--</span>, está devidamente homologado.</p>
+        </div>
+        <div class="cert-footer">
+            <span class="cert-stamp">AUTENTICADO</span>
+            <span class="cert-stamp">FORKLABS HUB</span>
+        </div>
+    </div>
+
+    <div class="editor-controls">
+        <button onclick="atualizarTituloCert()">Alterar Título (ID)</button>
+        <button onclick="preencherDadosCert()">Preencher Dados (QuerySelector)</button>
+        <button onclick="aplicarSelosCert()">Ativar Selos (QuerySelectorAll)</button>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Documento Oficial (CSS)
+
+No arquivo `style.css`, criaremos um visual de "papel timbrado" para o certificado:
+
+```css
+#panel-certificate-editor { border-top: 4px solid #f43f5e; } /* Cor rosa/coral */
+
+.cert-base { 
+    background: #fff; 
+    color: #1e293b; 
+    padding: 30px; 
+    border-radius: 4px; 
+    border: 8px double #e2e8f0; 
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+#cert-title { font-family: 'Georgia', serif; font-size: 1.2rem; color: #0f172a; margin-bottom: 20px; }
+.cert-body { font-size: 0.9rem; line-height: 1.6; color: #475569; }
+.cert-field { font-weight: bold; border-bottom: 1px solid #94a3b8; color: #1e293b; }
+
+.cert-footer { display: flex; justify-content: center; gap: 20px; margin-top: 25px; }
+.cert-stamp { 
+    font-size: 0.6rem; 
+    padding: 4px 8px; 
+    border: 1px solid #cbd5e1; 
+    color: #cbd5e1; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+
+/* Classe de ativação dos selos */
+.stamp-active { border-color: #f43f5e !important; color: #f43f5e !important; font-weight: bold; }
+
+.editor-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a captura de elementos dividida em três frentes de seleção:
+
+**Tarefa A: Seleção por ID (O Caminho Direto)**
+Utilizaremos `getElementById` para capturar o título principal. É o método mais eficiente quando sabemos exatamente qual elemento único queremos atingir.
+
+```javascript
+const atualizarTituloCert = () => {
+    const elTitulo = document.getElementById("cert-title");
+    elTitulo.innerText = "CERTIFICADO DE PROPRIEDADE INTELECTUAL 2026";
+    addLog("DOM: Título do certificado editado via ID.");
+};
+
+```
+
+**Tarefa B: Seleção por QuerySelector (O Caminho Preciso)**
+Utilizaremos o `querySelector` para encontrar elementos aninhados usando seletores CSS (como `.classe` ou `tag[atributo]`). Isso permite atingir campos específicos sem precisar de um ID para cada um.
+
+```javascript
+const preencherDadosCert = () => {
+    // Selecionando pela classe e atributo customizado
+    const elNomeAtivo = document.querySelector(".cert-field[data-type='name']");
+    const elValorAtivo = document.querySelector(".cert-field[data-type='value']");
+
+    if (ativosData.length > 0) {
+        const ultimoAtivo = ativosData[ativosData.length - 1];
+        elNomeAtivo.innerText = ultimoAtivo.nome;
+        elValorAtivo.innerText = ultimoAtivo.valor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        addLog(`DOM: Dados do ativo '${ultimoAtivo.nome}' injetados via QuerySelector.`);
+    }
+};
+
+```
+
+**Tarefa C: Seleção Múltipla com QuerySelectorAll (O Caminho Coletivo)**
+Capturaremos todos os selos de uma vez. Como o `querySelectorAll` retorna uma lista (*NodeList*), utilizaremos um loop para aplicar estilos a todos simultaneamente.
+
+```javascript
+const aplicarSelosCert = () => {
+    const selos = document.querySelectorAll(".cert-stamp");
+    
+    // Aplicando classe em todos os elementos da lista
+    selos.forEach(selo => {
+        selo.classList.toggle("stamp-active");
+    });
+    
+    addLog(`DOM: ${selos.length} selos de autenticação processados.`);
+};
+
+```
+
+---
+
+## Código Completo: Aula 46 (Evolutivo)
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO HUB DE INOVAÇÃO - FASE 11
+ * Aula 46: Seletores DOM e Edição de Documentos
+ */
+
+// 1. TAREFA A: SELEÇÃO POR ID
+function atualizarTituloCert() {
+    const titulo = document.getElementById("cert-title");
+    titulo.innerText = "CERTIFICADO DE EXCELÊNCIA TÉCNICA";
+    titulo.style.color = "#f43f5e";
+    addLog("Interface: Título do documento atualizado.");
+}
+
+// 2. TAREFA B: SELEÇÃO POR QUERYSELECTOR
+function preencherDadosCert() {
+    // Captura com precisão de seletor CSS
+    const campoNome = document.querySelector(".cert-field[data-type='name']");
+    const campoValor = document.querySelector(".cert-field[data-type='value']");
+
+    // Buscando o ativo de maior valor no banco (Aula 44)
+    const topAtivo = ativosData.sort((a,b) => b.valor - a.valor)[0];
+
+    if (topAtivo) {
+        campoNome.innerText = topAtivo.nome;
+        campoValor.innerText = `R$ ${topAtivo.valor.toLocaleString()}`;
+        addLog(`Certificado: Gerado para o ativo de maior valor: ${topAtivo.nome}`);
+    }
+}
+
+// 3. TAREFA C: SELEÇÃO EM MASSA (querySelectorAll)
+function aplicarSelosCert() {
+    const listaSelos = document.querySelectorAll(".cert-stamp");
+    
+    listaSelos.forEach((selo, i) => {
+        setTimeout(() => {
+            selo.classList.toggle("stamp-active");
+        }, i * 200); // Efeito de cascata
+    });
+}
+
+// 4. INTEGRAÇÃO COM MÓDULOS ANTERIORES
+const inicializarHub = () => {
+    // Identidade e Status (Aulas 36-37)
+    document.getElementById("hub-nome").innerText = "Hub de Inovação";
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Perfil do Autor (Aula 45)
+    if(typeof autorRef !== 'undefined') autorRef.atualizarPerfil();
+
+    // Auditoria Inicial (Aula 44)
+    if(typeof realizarAuditoria === 'function') realizarAuditoria();
+
+    addLog("Sistema: Módulo de Edição DOM pronto para operação.");
+};
+
+// Execução
+window.onload = inicializarHub;
+
+```
+
+O Hub de Inovação agora é capaz de gerar documentos oficiais com precisão técnica e visual. Gostaria que eu prosseguisse para a **Aula 47 (Manipulação de Elementos e Estilos)**, onde criaremos um **Dashboard de Temas Dinâmicos (Dark/Light Mode)** para o Hub?
+
+-------------------
+Aula 47
+-------------------
+Esta é a conclusão do nosso **Projeto Integrador: Hub de Inovação**, correspondente à **Aula 47 (Manipulação de Elementos e Estilos)**. Nesta etapa final, vamos unificar toda a inteligência construída (infraestrutura, variáveis, lógica, repetição, funções, arrays e objetos) e dar ao sistema uma interface adaptativa.
+
+O objetivo é implementar a **Personalização de Ambiente (Dark/Light Mode)** e o **Feedback Visual de Status**, demonstrando como o JavaScript pode controlar a estética completa do Dashboard para melhorar a experiência do usuário.
+
+---
+
+## Aula 47: Estética Adaptativa e Gestão de Estados (Estilos e Classes)
+
+Nesta aula, o Hub atinge sua maturidade visual. Segundo ALTO (2025), interfaces que se adaptam ao contexto do usuário aumentam a produtividade e reduzem a fadiga cognitiva. Vamos manipular o **CSS Variables** e a **classList** para transformar o Hub em uma ferramenta profissional de alta performance.
+
+### 1. Evolução Final da Interface (HTML)
+
+No arquivo `index.html`, vamos adicionar o seletor de tema no topo do Hub e um painel de "Status Visual":
+
+```html
+<div class="theme-switcher">
+    <span>Modo de Exibição:</span>
+    <button onclick="alternarTema()">Alternar Tema (Light/Dark)</button>
+</div>
+
+<section id="panel-ui-control" class="card">
+    <h3>Controle de Interface Dinâmica</h3>
+    <div id="ui-status-box" class="ui-base">
+        <p id="ui-msg">Aguardando comando de estilo...</p>
+    </div>
+    
+    <div class="ui-controls">
+        <button onclick="injetarAlertaHTML()">Injetar Alerta (innerHTML)</button>
+        <button onclick="mudarCorDireta()">Estilo Direto (Style)</button>
+        <button onclick="resetarEstadoUI()">Resetar Estado (ClassList)</button>
+    </div>
+</section>
+
+```
+
+### 2. Estilização de Variáveis de Tema (CSS)
+
+No arquivo `style.css`, utilizaremos variáveis para facilitar a troca de cores em todo o projeto:
+
+```css
+/* Definição de Temas no ROOT */
+:root {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --border-color: #334155;
+}
+
+/* Classe de Tema Claro que será aplicada ao BODY */
+body.light-theme {
+    --bg-body: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --border-color: #cbd5e1;
+}
+
+body { background: var(--bg-body); color: var(--text-main); transition: background 0.4s; }
+.card { background: var(--bg-card); border-color: var(--border-color); }
+
+/* Estilos da Aula 47 */
+.ui-base { padding: 15px; border-radius: 6px; background: rgba(0,0,0,0.2); margin-bottom: 15px; border: 2px solid transparent; transition: all 0.3s; }
+.ui-alert-active { border-color: #ef4444; background: rgba(239, 68, 68, 0.1); color: #ef4444; font-weight: bold; }
+
+.ui-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.theme-switcher { display: flex; justify-content: space-between; align-items: center; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid var(--border-color); margin-bottom: 15px; }
+
+```
+
+---
+
+### 3. Implementação Técnica (JavaScript)
+
+No arquivo `script.js`, realizaremos a integração final dividida em três tarefas de controle estético:
+
+**Tarefa A: Injeção de Estrutura Enriquecida (innerHTML)**
+Utilizaremos o `innerHTML` para não apenas mudar o texto, mas criar componentes visuais complexos (como alertas com ícones) dentro do painel de controle.
+
+```javascript
+const injetarAlertaHTML = () => {
+    const elBox = document.getElementById("ui-msg");
+    elBox.innerHTML = `<span style="font-size: 1.2rem;">⚠</span> <u>ALERTA DE SEGURANÇA</u>: Protocolo de auditoria exigido.`;
+    addLog("UI: Injeção de componente HTML realizada.");
+};
+
+```
+
+**Tarefa B: Manipulação de Propriedades Diretas (Style Property)**
+Utilizaremos a propriedade `.style` para ajustes granulares e imediatos, como mudar a cor de um texto ou a borda de um elemento sem depender de classes pré-definidas.
+
+```javascript
+const mudarCorDireta = () => {
+    const elStatus = document.getElementById("ui-status-box");
+    elStatus.style.borderColor = "#38bdf8";
+    elStatus.style.boxShadow = "0 0 15px rgba(56, 189, 248, 0.4)";
+    addLog("UI: Estilo inline aplicado diretamente via objeto .style.");
+};
+
+```
+
+**Tarefa C: Gestão de Estado Global (classList e Temas)**
+Implementaremos a alternância do tema através do `classList.toggle` no elemento `body`, afetando todas as variáveis CSS do projeto simultaneamente.
+
+```javascript
+const alternarTema = () => {
+    const corpo = document.body;
+    const estaNoLight = corpo.classList.toggle("light-theme");
+    
+    if (estaNoLight) {
+        addLog("SISTEMA: Modo Claro ativado para melhor leitura.");
+    } else {
+        addLog("SISTEMA: Modo Escuro ativado para economia de energia.");
+    }
+};
+
+```
+
+---
+
+## Código Final do Projeto: Hub de Inovação
+
+Este código representa a união de todas as aulas do módulo.
+
+**script.js**
+
+```javascript
+/**
+ * PROJETO INTEGRADOR: HUB DE INOVAÇÃO (VERSÃO FINAL)
+ * Consolidação das Aulas 36 a 47
+ */
+
+// 1. ESTADO GLOBAL E OBJETOS (Aula 37, 43, 44, 45)
+let ativosData = [
+    { nome: "Sistema Lucleo ERP", valor: 25000, tipo: "Software" },
+    { nome: "App TFormulas", valor: 12000, tipo: "Mobile" },
+    { nome: "Patente IA-Logic", valor: 45000, tipo: "Invenção" }
+];
+
+const hubConfig = {
+    nome: "Hub de Inovação",
+    versao: "2.0.Final",
+    responsavel: "Ivancley Brito"
+};
+
+// 2. UTILITÁRIOS DE LOG E FORMATAÇÃO (Aula 36, 41, 42)
+const addLog = msg => {
+    const terminal = document.getElementById("terminal-auditoria");
+    terminal.innerHTML += `<p>> [${new Date().toLocaleTimeString()}] ${msg}</p>`;
+    terminal.scrollTop = terminal.scrollHeight; // Auto-scroll
+};
+
+const fMoeda = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+// 3. LÓGICA ANALÍTICA (Aula 38, 39, 40, 44)
+const realizarAuditoriaGeral = () => {
+    const total = ativosData.reduce((acc, obj) => acc + obj.valor, 0);
+    const criticos = ativosData.filter(item => item.valor > 10000);
+
+    document.getElementById("out-total-patrimonio").innerText = fMoeda(total);
+    document.getElementById("out-count-criticos").innerText = criticos.length;
+    
+    // Atualiza Barra de Performance (Aula 38)
+    const meta = 100000;
+    const progresso = (total / meta) * 100;
+    document.getElementById("progress-bar-fill").style.width = `${progresso}%`;
+    document.getElementById("label-eficiencia").innerText = `Ocupação: ${progresso.toFixed(1)}%`;
+};
+
+// 4. MANIPULAÇÃO DE ESTILOS E INTERFACE (Aula 46, 47)
+const alternarTema = () => {
+    document.body.classList.toggle("light-theme");
+    addLog("Interface: Tema do Hub alternado.");
+};
+
+const injetarAlertaHTML = () => {
+    const box = document.getElementById("ui-status-box");
+    box.innerHTML = `<h4>SISTEMA EM ALERTA</h4><p>Verificando integridade dos ativos...</p>`;
+    box.classList.add("ui-alert-active");
+    addLog("UI: Alerta crítico injetado no DOM.");
+};
+
+const mudarCorDireta = () => {
+    const titulo = document.getElementById("hub-nome");
+    titulo.style.color = "#38bdf8";
+    titulo.style.textShadow = "0 0 10px #38bdf8";
+    addLog("UI: Estilo direto aplicado ao título principal.");
+};
+
+const resetarEstadoUI = () => {
+    const box = document.getElementById("ui-status-box");
+    box.className = "ui-base"; // Remove todas as outras classes
+    box.style = ""; // Limpa estilos inline
+    box.innerHTML = `<p>Estado original restaurado.</p>`;
+    addLog("UI: Reset de interface concluído.");
+};
+
+// 5. INICIALIZAÇÃO COMPLETA DO PROJETO
+const inicializarHub = () => {
+    // Identidade
+    document.getElementById("hub-nome").innerText = hubConfig.nome;
+    document.getElementById("hub-versao").innerText = hubConfig.versao;
+    document.getElementById("led-status").classList.add("led-on");
+
+    // Sincronização de Componentes
+    realizarAuditoriaGeral();
+    
+    // Lista de Ativos (Aula 43 + 44)
+    const lista = document.getElementById("lista-ativos-visual");
+    lista.innerHTML = ativosData.map(a => `<li>${a.nome} <span>${fMoeda(a.valor)}</span></li>`).join("");
+
+    addLog(`Hub pronto. Bem-vindo, ${hubConfig.responsavel}.`);
+};
+
+// Start
+window.onload = inicializarHub;
+
+```
+
+Com esta aula, o seu **Hub de Inovação** está completo e funcional. Você percorreu desde a ativação básica do ambiente até a criação de um sistema analítico com interfaces adaptativas e proteção de dados.
+
+**Este projeto finalizou o módulo solicitado. Deseja que eu elabore um "Manual de Manutenção Técnica" para este Hub ou gostaria de iniciar um novo módulo focado em Requisições API e Bancos de Dados?**
