@@ -1,0 +1,27 @@
+/* Estilo do Mapa */
+#map { 
+    height: 450px; 
+    width: 100%; 
+    border-radius: 8px; 
+    z-index: 1; /* Garante que o mapa fique abaixo dos menus */
+}
+
+/* Animação para novos chamados */
+.emergency-blink { 
+    animation: blink 1s infinite; 
+}
+
+@keyframes blink { 
+    0% { background-color: #fee2e2; } 
+    50% { background-color: #ef4444; color: white; } 
+    100% { background-color: #fee2e2; } 
+}
+
+/* Customização da barra de rolagem */
+#lista-chamados::-webkit-scrollbar {
+    width: 6px;
+}
+#lista-chamados::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+}

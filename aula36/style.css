@@ -1,0 +1,37 @@
+body 
+{ font-family: 'Segoe UI', sans-serif; 
+    background-color: #f4f7f6;
+     display: flex; 
+     justify-content: center; 
+     padding-top: 50px;
+     }
+#setup-container 
+{ background: #fff; padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+    width: 450px; 
+    text-align: center; 
+}
+
+#status-tag 
+{ font-weight: bold; 
+    color: #d93025; 
+    padding: 4px 8px; 
+    border-radius: 4px; 
+    background: #fce8e6; }
+/* Classe que será injetada pelo JS */
+.ativo 
+{ color: #188038 !important;
+     background: #e6f4ea !important; }
+
+#terminal-log 
+{ background: #202124; 
+    color: #81c995; 
+    font-family: 'Courier New', monospace; 
+    padding: 15px; 
+    border-radius: 6px; 
+    text-align: left; 
+    margin-top: 20px; 
+    font-size: 0.85rem; 
+    min-height: 80px; 
+}

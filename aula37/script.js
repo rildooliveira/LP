@@ -1,0 +1,25 @@
+/**
+ * Aula 37: Variáveis e Tipagem
+ * Objetivo: Exibir dados e seus tipos na interface gráfica.
+ */
+
+// 1. Declaração de Variáveis (A lógica)
+const nomeAtivo = "Gerador Industrial A1"; // String
+let voltagem = 380;                       // Number
+let estaLigado = true;                    // Boolean
+
+// 2. Mapeamento dos elementos da interface (O DOM)
+const elNome = document.getElementById("info-nome");
+const elVoltagem = document.getElementById("info-voltagem");
+const elStatus = document.getElementById("info-status");
+const elTipo = document.getElementById("info-tipo");
+
+// 3. Injeção de dados na tela (A visualização)
+elNome.innerText = nomeAtivo;
+elVoltagem.innerText = voltagem + "V";
+elStatus.innerText = estaLigado ? "OPERACIONAL" : "DESLIGADO";
+
+// Demonstrando a tipagem dinamicamente na interface
+elTipo.innerText = `A variável voltagem é do tipo: ${typeof voltagem}`;
+
+console.log("Ficha técnica atualizada na interface.");
