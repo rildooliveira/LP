@@ -1,0 +1,13 @@
+ body 
+ { 
+    font-family: sans-serif; 
+    text-align: center; 
+    padding-top: 50px; 
+    background-color: #f4f4f9; 
+}
+
+.instrucao 
+{ 
+    color: #555; 
+    font-style: italic; 
+}
