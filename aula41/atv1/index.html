@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula 41 - Simulador de Desconto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <h2>Cálculo de Pedido Modular</h2>
+        
+        <div class="campo">
+            <label>Valor do Pedido (R$):</label>
+            <input type="number" id="valor-pedido" placeholder="Ex: 1000">
+        </div>
+
+        <button onclick="processarOperacao()">Calcular Total</button>
+
+        <div id="resultado-painel" class="oculto">
+            <p>Subtotal: <span id="subtotal">--</span></p>
+            <p>Desconto Aplicado: <span id="desconto">--</span></p>
+            <hr>
+            <h3>Total Final: <span id="total-final">--</span></h3>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
