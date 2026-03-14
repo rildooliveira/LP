@@ -2,19 +2,26 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Aula 38 - Operadores</title>
+    <title>Aula 38 - Operadores Interativos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Cálculo de Eficiência</h1>
+        
+        <div class="form-grupo">
+            <input type="number" id="input-esperada" placeholder="Produção Esperada">
+            <input type="number" id="input-real" placeholder="Produção Real">
+            <button id="btn-calcular">Calcular Eficiência</button>
+        </div>
+
         <div class="display">
             <span id="resultado-valor">0</span>%
         </div>
         <div class="barra-fundo">
             <div id="barra-progresso"></div>
         </div>
-        <p id="mensagem-logistica">Aguardando dados...</p>
+        <p id="mensagem-logistica">Insira os dados acima para calcular.</p>
     </div>
     <script src="script.js"></script>
 </body>

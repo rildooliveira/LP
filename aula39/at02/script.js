@@ -1,3 +1,8 @@
+/**
+ * Central 193 - Simulação de Sistema de Emergências
+ * Objetivo: Gerar chamados aleatórios e permitir o atendimento dinâmico.
+ */
+
 // Configuração inicial do Mapa
 const map = L.map('map').setView([-5.089, -42.801], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -5,16 +10,34 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let marker;
+let chamadoSelecionadoId = null; // Mudança: Armazena o ID do chamado aberto nos detalhes
 
-// Função chamada quando o servidor enviar um alerta
+// Mock de dados para simulação
+const tiposEmergencia = [
+    { tipo: 'Incêndio', cor: 'text-red-500' },
+    { tipo: 'Acidente de Trânsito', cor: 'text-orange-500' },
+    { tipo: 'Salvamento', cor: 'text-blue-500' },
+    { tipo: 'Vazamento de Gás', cor: 'text-yellow-500' }
+];
+
+const locaisMock = [
+    { nome: 'Av. Frei Serafim, Centro', lat: -5.0885, lng: -42.8105 },
+    { nome: 'Ponte Metálica, Timon', lat: -5.0931, lng: -42.8252 },
+    { nome: 'Ufpi, Ininga', lat: -5.0594, lng: -42.7915 },
+    { nome: 'Parque Estevam, Zona Sul', lat: -5.1245, lng: -42.7842 }
+];
+
+// 1. Função para receber/criar o alerta no sistema
 function receberAlerta(dados) {
-    const som = document.getElementById('alerta-som');
-    som.play().catch(e => console.log("Áudio aguardando interação do usuário."));
-
     const lista = document.getElementById('lista-chamados');
     if(lista.querySelector('p')) lista.innerHTML = '';
 
+    // Mudança: Criamos um ID único para cada chamado para facilitar a remoção posterior
+    const chamadoId = `chamado-${Date.now()}`;
+    dados.id = chamadoId;
+
     const card = document.createElement('div');
+    card.id = chamadoId; // Mudança: Atribuímos o ID ao elemento do DOM
     card.className = "emergency-blink p-4 rounded-lg cursor-pointer text-slate-900 shadow-md transition-all hover:scale-[1.02]";
     card.innerHTML = `
         <div class="flex justify-between items-start">
@@ -26,9 +49,15 @@ function receberAlerta(dados) {
     
     card.onclick = () => selecionarOcorrencia(dados);
     lista.prepend(card);
+
+    // Tocar alerta sonoro
+    const som = document.getElementById('alerta-som');
+    if(som) som.play().catch(() => {});
 }
 
+// 2. Função para exibir detalhes
 function selecionarOcorrencia(dados) {
+    chamadoSelecionadoId = dados.id; // Mudança: Guardamos qual chamado está sendo visualizado
     const detalhes = document.getElementById('detalhes-chamado');
     detalhes.classList.remove('hidden');
     
@@ -36,7 +65,6 @@ function selecionarOcorrencia(dados) {
     document.getElementById('detalhe-tel').innerText = dados.tel;
     document.getElementById('detalhe-tipo').innerText = dados.tipo;
 
-    // Atualiza a posição no mapa
     const coords = [dados.lat, dados.lng];
     map.setView(coords, 17);
     
@@ -46,23 +74,45 @@ function selecionarOcorrencia(dados) {
         .openPopup();
 }
 
+// 3. Função para Atender (Remover) o chamado
+function atenderChamado() {
+    if (chamadoSelecionadoId) {
+        // Mudança: Removemos o card da lista lateral após o atendimento
+        const cardParaRemover = document.getElementById(chamadoSelecionadoId);
+        if (cardParaRemover) {
+            cardParaRemover.classList.add('opacity-0', 'scale-90'); // Efeito visual de saída
+            setTimeout(() => cardParaRemover.remove(), 300);
+        }
+        
+        alert("Viatura despachada! Ocorrência registrada.");
+        fecharDetalhes();
+        if(marker) map.removeLayer(marker); // Limpa o mapa após atender
+    }
+}
+
 function fecharDetalhes() {
     document.getElementById('detalhes-chamado').classList.add('hidden');
+    chamadoSelecionadoId = null;
 }
 
-function atenderChamado() {
-    alert("Viatura enviada com sucesso!");
-    fecharDetalhes();
-}
-
-// Simulação de recebimento (Substituir por Socket.io no futuro)
-setTimeout(() => {
+// Mudança: Função para gerar chamados aleatórios periodicamente
+function gerarChamadoSimulado() {
+    const tipoAleatorio = tiposEmergencia[Math.floor(Math.random() * tiposEmergencia.length)];
+    const localAleatorio = locaisMock[Math.floor(Math.random() * locaisMock.length)];
+    
     receberAlerta({
-        tipo: 'Incêndio',
-        nome: 'Praça da Bandeira, Centro',
-        tel: '(86) 99981-2345',
-        lat: -5.0892,
-        lng: -42.8112,
+        tipo: tipoAleatorio.tipo,
+        nome: localAleatorio.nome,
+        tel: `(86) 99${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`,
+        lat: localAleatorio.lat + (Math.random() - 0.5) * 0.01, // Pequeno desvio para não ser sempre igual
+        lng: localAleatorio.lng + (Math.random() - 0.5) * 0.01,
         hora: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
     });
-}, 2000);
+}
+
+// Mudança: Inicia a simulação (Gera um novo chamado entre 5 a 15 segundos)
+setInterval(gerarChamadoSimulado, 10000); 
+
+// Gera o primeiro chamado após 2 segundos para iniciar o sistema
+setTimeout(gerarChamadoSimulado, 2000);
+
