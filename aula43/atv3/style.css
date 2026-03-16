@@ -1,0 +1,21 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #fdfdfd; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 50px; 
+}
+.card 
+{ 
+    background: #fff; 
+    border: 1px solid #ddd; 
+    padding: 20px; 
+    border-radius: 4px; 
+    width: 300px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+}
+h3 { margin-top: 0; color: #333; text-align: center; }
+ul { list-style: none; padding: 0; }
+li { padding: 10px; border-bottom: 1px solid #eee; color: #555; font-size: 14px; }
+li:last-child { border-bottom: none; }

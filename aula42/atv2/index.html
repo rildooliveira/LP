@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Peticionamento - ForkLabs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro de Nova Patente</h2>
+        <div class="form-grupo">
+            <input type="text" id="titulo" placeholder="Título da Invenção">
+            <select id="categoria">
+                <option value="">Selecione a Categoria</option>
+                <option value="PI">Patente de Invenção</option>
+                <option value="MU">Modelo de Utilidade</option>
+            </select>
+            <textarea id="resumo" placeholder="Resumo Técnico (mínimo 20 caracteres)"></textarea>
+            
+            <button onclick="executarCadastro()">Solicitar Registro</button>
+        </div>
+        <p id="feedback"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
