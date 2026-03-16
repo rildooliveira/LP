@@ -1,0 +1,41 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #dfe6e9; 
+    display: flex; 
+    justify-content: center; 
+    padding: 40px; 
+}
+.card-peticionamento 
+{ 
+    background: white; 
+    padding: 20px; 
+    border-radius: 5px; 
+    width: 350px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+.form 
+{ 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+}
+input, button 
+{ 
+    padding: 8px; 
+}
+button 
+{ 
+    background: #0984e3; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+}
+.protocolo-saida 
+{ 
+    margin-top: 20px; 
+    font-size: 0.85em; 
+    color: #2d3436; 
+    border-top: 1px solid #eee; 
+    padding-top: 10px; 
+}

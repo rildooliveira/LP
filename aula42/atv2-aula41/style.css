@@ -1,0 +1,72 @@
+/* Configurações Globais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container Principal */
+.container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Grupo do Formulário */
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os campos */
+}
+
+/* Estilização dos Inputs e Select */
+input, select, textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+textarea {
+    height: 100px;
+    resize: none; /* Impede o redimensionamento manual */
+}
+
+/* Botão de Ação */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Área de Feedback */
+#feedback {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 20px; /* Evita que o layout "pule" quando a mensagem aparece */
+}
