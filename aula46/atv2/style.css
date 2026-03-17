@@ -1,0 +1,29 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #f4f7f6; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+}
+.card 
+{ 
+    background: #fff; 
+    padding: 2rem; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    border-top: 5px solid #0984e3; 
+    text-align: center; 
+}
+button 
+{ 
+    background: #0984e3; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin-top: 10px; 
+}

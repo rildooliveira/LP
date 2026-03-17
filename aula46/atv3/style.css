@@ -1,0 +1,34 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #dfe6e9; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 50px; 
+}
+.card 
+{ 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    width: 320px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+}
+ul 
+{ 
+    list-style: none; 
+    padding: 0; 
+}
+li 
+{ 
+    padding: 10px; 
+    border-bottom: 1px solid #eee; 
+    transition: 0.3s; 
+}
+.aprovado 
+{ 
+    background: #dff9fb; 
+    color: #0984e3; 
+    font-weight: bold; 
+    border-left: 4px solid #0984e3; 
+}

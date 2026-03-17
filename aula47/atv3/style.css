@@ -1,0 +1,66 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #ecf0f1; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 50px; 
+}
+.container 
+{ 
+    background: #fff; 
+    padding: 25px; 
+    border-radius: 8px; 
+    width: 350px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+}
+.controles 
+{ 
+    display: flex; 
+    gap: 5px; 
+    margin-bottom: 20px; 
+}
+input 
+{ 
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+button 
+{ 
+    background: #27ae60; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+ul 
+{ 
+    list-style: none; 
+    padding: 0; 
+}
+li 
+{ 
+    background: #f9f9f9; 
+    padding: 12px; 
+    margin-bottom: 8px; 
+    border-radius: 4px; 
+    display: flex; 
+    justify-content: space-between; 
+    border: 1px solid #eee; 
+}
+li:hover 
+{ 
+    background: #fff5f5; 
+    border-color: #fab1a0; 
+    color: #d63031; 
+    cursor: pointer; 
+}
+li::after 
+{ 
+    content: 'Remover 🗑️'; 
+    font-size: 11px; 
+    color: #999; 
+}
