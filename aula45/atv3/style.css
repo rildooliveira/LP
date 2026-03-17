@@ -1,0 +1,19 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #f7f1e3; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+}
+.card 
+{ 
+    background: #fff; 
+    border: 1px solid #d1ccc0;
+    padding: 25px; 
+    border-radius: 4px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    text-align: center; 
+}
