@@ -1,0 +1,44 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #f0f2f5; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+}
+.card 
+{ 
+    background: #fff; 
+    padding: 2rem; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    text-align: center; 
+    border-top: 6px solid #0984e3; 
+}
+.botoes 
+{ 
+    display: flex; 
+    gap: 10px; 
+    justify-content: center; 
+    margin-top: 20px; 
+}
+button 
+{ 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    border: none; 
+    border-radius: 4px; 
+    font-weight: bold; 
+}
+#btn-adicionar 
+{ 
+    background: #00b894; 
+    color: white; 
+}
+#btn-limpar 
+{ 
+    background: #d63031; 
+    color: white; 
+}
