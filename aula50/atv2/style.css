@@ -1,0 +1,45 @@
+body 
+{ 
+    font-family: sans-serif; 
+    background: #dfe6e9; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 50px; 
+}
+.card 
+{ 
+    background: #fff; 
+    padding: 25px; 
+    border-radius: 8px; 
+    width: 300px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+}
+input 
+{ 
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #ccc; 
+}
+button 
+{ 
+    width: 100%; 
+    background: #6c5ce7; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    cursor: pointer; 
+}
+button:disabled 
+{ 
+    background: #b2bec3; 
+    cursor: not-allowed; 
+}
+#msg-feedback 
+{ 
+    margin-top: 15px; 
+    font-size: 13px; 
+    text-align: center; 
+    font-weight: bold; 
+}

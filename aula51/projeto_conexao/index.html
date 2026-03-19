@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Dados - Aula 51</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <img src="https://cdn-icons-png.flaticon.com/512/2771/2771401.png" alt="DB Logo" width="50">
+            <h2>Auditor de Conexão</h2>
+        </div>
+        
+        <div id="status-container" class="status-box standby">
+            <p id="mensagem">Aguardando Verificação...</p>
+        </div>
+
+        <button id="btn-verificar">Testar Conexão com MySQL</button>
+        
+        <div class="info">
+            <small>Servidor: 
+                <strong>localhost</strong> | Usuário: <strong>root</strong></small>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -3,10 +3,10 @@
  * Objetivo: Exibir dados e seus tipos na interface gráfica.
  */
 
-// 1. Declaração de Variáveis (A lógica)
-const nomeAtivo = "Gerador Industrial A1"; // String
-let voltagem = 220;                       // Number
-let estaLigado = true;                    // Boolean
+/** 1. Declaração de Variáveis (A lógica) */
+const nomeAtivo = "Gerador Industrial A1"; 
+let voltagem = 380;                       
+let estaLigado = true;                   
 
 // 2. Mapeamento dos elementos da interface (O DOM)
 const elNome = document.getElementById("info-nome");
@@ -16,7 +16,7 @@ const elTipo = document.getElementById("info-tipo");
 
 // 3. Injeção de dados na tela (A visualização)
 elNome.innerText = nomeAtivo;
-elVoltagem.innerText = voltagem + " V";
+elVoltagem.innerText = voltagem + "V";
 elStatus.innerText = estaLigado ? "OPERACIONAL" : "DESLIGADO";
 
 // Demonstrando a tipagem dinamicamente na interface
