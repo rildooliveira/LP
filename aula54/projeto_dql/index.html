@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta DQL - Aula 54</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card wide">
+        <div class="header">
+            <img src="https://cdn-icons-png.flaticon.com/512/2533/2533087.png" alt="DQL Logo" width="50">
+            <h2>Consulta de Inventário</h2>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="input-busca" placeholder="O que você procura?">
+            <button id="btn-buscar">Filtrar</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-corpo"></tbody>
+        </table>
+
+        <div id="status-container" class="status-box standby">
+            <p id="mensagem">Aguardando consulta...</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Integração - Aula 56</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="top-bar">
+            <h2>Relatório Analítico de Estoque</h2>
+            <div class="controls">
+                <button id="btn-inner" class="btn active">Relatório Rigoroso (INNER)</button>
+                <button id="btn-left" class="btn">Inventário Completo (LEFT)</button>
+            </div>
+        </header>
+
+        <main class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço (R$)</th>
+                        <th>Categoria Vinculada</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-relatorio">
+                    </tbody>
+            </table>
+        </main>
+
+        <footer class="status-footer">
+            <span id="mensagem">Aguardando solicitação...</span>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; margin: 0; padding: 40px; color: #333; display: flex; justify-content: center; }
+
+.dashboard-container { width: 100%; max-width: 900px; background: #fff; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); overflow: hidden; }
+
+.top-bar { background: #2c3e50; padding: 25px; color: white; display: flex; justify-content: space-between; align-items: center; }
+.top-bar h2 { margin: 0; font-size: 20px; font-weight: 500; }
+
+.controls { display: flex; gap: 10px; }
+.btn { background: #34495e; color: #fff; border: 1px solid #465c71; padding: 10px 15px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+.btn:hover { background: #415b76; }
+.btn.active { background: #3498db; border-color: #2980b9; font-weight: bold; }
+
+.table-wrapper { padding: 25px; min-height: 300px; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th { color: #7f8c8d; font-size: 13px; text-transform: uppercase; border-bottom: 2px solid #ecf0f1; padding-bottom: 12px; }
+td { padding: 15px 0; border-bottom: 1px solid #f1f2f6; font-size: 15px; }
+
+.badge-null { background: #ffeaa7; color: #d35400; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+
+.status-footer { background: #ecf0f1; padding: 15px 25px; font-size: 13px; color: #7f8c8d; font-weight: 500; }
+.status-erro { color: #e74c3c; font-weight: bold; }
