@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Performance - Aula 59</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card wide">
+        <div class="header">
+            <img src="https://cdn-icons-png.flaticon.com/512/1541/1541415.png" alt="Speed Logo" width="50">
+            <h2>Monitor de Otimização (Índices)</h2>
+        </div>
+        
+        <div class="test-area">
+            <input type="text" id="busca-nome" placeholder="Nome do produto para teste...">
+            <button id="btn-testar">Executar Busca de Alta Performance</button>
+        </div>
+
+        <div class="results-container">
+            <div class="result-box">
+                <small>Tempo de Execução (SQL):</small>
+                <h3 id="tempo-sql">0.0000s</h3>
+            </div>
+            <div class="result-box">
+                <small>Linhas Analisadas:</small>
+                <h3 id="linhas-analisadas">0</h3>
+            </div>
+        </div>
+
+        <div id="status-container" class="status-box standby">
+            <p id="mensagem">Aguardando gatilho de busca...</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
